@@ -1,0 +1,16 @@
+# Load all libraries
+required_packages <- c(
+  "tidyr","plyr","dplyr","ape","psych","raster","geosphere","sf","maps",
+  "mapdata","purrr","phytools","rprojroot","Hmsc","Matrix","vioplot",
+  "ggpubr","wesanderson","jsonify","abind","corrplot"
+)
+
+to_install <- setdiff(required_packages, rownames(installed.packages()))
+if (length(to_install) > 0) install.packages(to_install, dependencies = TRUE)
+
+invisible(lapply(required_packages, library, character.only = TRUE))
+
+#source("C:/Users/fabie/Documents/Scripts R/Thèse/Rfunctions/bround.R")
+#source("C:/Users/fabie/Documents/Scripts R/Divers/ggplot_hmsc_functions.R")
+
+
