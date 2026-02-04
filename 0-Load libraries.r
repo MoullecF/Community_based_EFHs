@@ -12,5 +12,3 @@ invisible(lapply(required_packages, library, character.only = TRUE))
 
 #source("C:/Users/fabie/Documents/Scripts R/Thèse/Rfunctions/bround.R")
 #source("C:/Users/fabie/Documents/Scripts R/Divers/ggplot_hmsc_functions.R")
-
-
