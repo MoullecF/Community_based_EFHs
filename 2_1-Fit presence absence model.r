@@ -2,6 +2,9 @@
 # Fit presence/absence model using HPC cluster with GPUs and high RAM
 # ------------------------------------------------------------------------------
 
+# Load libraries
+source("./0- Load libraries.R")
+
 # Settings
 nSamples <- 250
 thin  <- 4000
@@ -43,7 +46,9 @@ saveRDS(to_json(init_obj_mpa), file = init_file_path)
 # ------------------------------------------------------------------------------
 # Once the init_file is created, submit the job to the HPC cluster.
 # The cluster will use GPUs and high RAM to perform MCMC sampling efficiently.
-# After completion, retrieve the posterior chain files from the cluster.
+# Use the SLURM script "run_hmsc_pa.slurm" located in the "models" folder
+# to submit the job on the Jean Zay HPC cluster.
+# After completion, retrieve the posterior chain files from the "models" folder.
 
 # ------------------------------------------------------------------------------
 # Import calculated posterior samples from HPC
