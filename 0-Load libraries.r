@@ -1,8 +1,10 @@
 # Load all libraries
 required_packages <- c(
-  "tidyr","plyr","dplyr","ape","psych","raster","geosphere","sf","maps",
-  "mapdata","purrr","phytools","rprojroot","Hmsc","Matrix","vioplot",
-  "ggpubr","wesanderson","jsonify","abind","corrplot"
+  "tidyr", "plyr", "dplyr", "ape", "psych", "raster", "geosphere", "sf", "maps",
+  "mapdata", "purrr", "phytools", "rprojroot", "Hmsc", "Matrix", "vioplot",
+  "ggpubr", "wesanderson", "jsonify", "abind", "corrplot", "stringr",
+  "reshape2", "ggplot2", "gridExtra", "grid", "cowplot", "viridis", "ggsci",
+  "ggnewscale"
 )
 
 to_install <- setdiff(required_packages, rownames(installed.packages()))
