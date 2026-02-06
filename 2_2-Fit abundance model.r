@@ -3,7 +3,7 @@
 # ------------------------------------------------------------------------------
 
 # Load libraries
-source("./0- Load libraries.R")
+source("./0-Load libraries.R")
 
 # Settings
 nSamples <- 250
