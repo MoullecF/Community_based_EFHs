@@ -4,7 +4,8 @@ required_packages <- c(
   "mapdata", "purrr", "phytools", "rprojroot", "Hmsc", "Matrix", "vioplot",
   "ggpubr", "wesanderson", "jsonify", "abind", "corrplot", "stringr",
   "reshape2", "ggplot2", "gridExtra", "grid", "cowplot", "viridis", "ggsci",
-  "ggnewscale", "ggthemes", "patchwork", "gtable", "PupillometryR"
+  "ggnewscale", "ggthemes", "patchwork", "gtable", "PupillometryR",
+  "Routliers", "trend", "RColorBrewer"
 )
 
 to_install <- setdiff(required_packages, rownames(installed.packages()))
