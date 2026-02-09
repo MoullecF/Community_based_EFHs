@@ -20,15 +20,15 @@ Depthrange <- "0_1000"
 
 # Output directories
 dir_save_posteriors <- if (model_type == "mpa") {
-  "./outputs/Presence_Absence_posteriors/"
+  "./Outputs/Presence_Absence_posteriors/"
 } else {
-  "./outputs/Abundance_posteriors/"
+  "./Outputs/Abundance_posteriors/"
 }
 
 dir_save_mean_posterior <- if (model_type == "mpa") {
-  "./outputs/Presence_Absence_mean_posterior/"
+  "./Outputs/Presence_Absence_mean_posterior/"
 } else {
-  "./outputs/Abundance_mean_posterior/"
+  "./Outputs/Abundance_mean_posterior/"
 }
 
 dir.create(dir_save_posteriors, recursive = TRUE, showWarnings = FALSE)

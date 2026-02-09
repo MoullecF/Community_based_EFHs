@@ -62,3 +62,50 @@ for (i in seq_along(vec_year)) {
 }
 
 # Generated outputs represent more than 1GB of data. They can be requested from the authors.
+
+# ------------------------------------------------------------------------------
+# Spatial grid and XY coordinates
+# ------------------------------------------------------------------------------
+
+grid_env <- get(load("./Inputs_HMSC/Hindcast_Env_grid_rect0.05_WMED_0_1000.RData"))
+xy <- grid_env[grid_env$YEAR == 1999, c("X", "Y")]
+
+WD_SpatialPred <- "./Outputs/Hurdle_prediction/Mean/"
+
+# ------------------------------------------------------------------------------
+# Build spatio-temporal raster stack from yearly predictions
+# ------------------------------------------------------------------------------
+
+list.Pred <- list.files(WD_SpatialPred, full.names = TRUE)
+
+# Initialize stacks
+r.stack.year <- stack()
+
+for (i in 1:length(list.Pred)) {
+
+  Pred_year_prov <- readRDS(list.Pred[i])
+  Pred_year_prov <- cbind(Pred_year_prov, xy)
+  Pred_year_prov <- relocate(Pred_year_prov, X, Y)
+  year <- str_sub(list.Pred[i], start = 57, end = 60)
+
+  r.stack <- stack()
+
+  cat("Year:", year, "\n")
+
+  for (j in 3:dim(Pred_year_prov)[2]) {
+
+    XYZ_data_sp <- Pred_year_prov[, c(1:2, j)]
+    sp_name <- colnames(XYZ_data_sp)[3]
+    r <- rasterFromXYZ(
+      xyz = XYZ_data_sp,
+      crs = "+proj=longlat +datum=WGS84",
+      res = c(0.05, 0.05)
+    )
+    names(r) <- paste0(sp_name, "_", year)
+    r.stack <- stack(r.stack, r)
+  }
+
+  r.stack.year <- stack(r.stack.year, r.stack)
+}
+
+save(r.stack.year, file = "./Outputs/Spatio_temporal_prediction/r_stack_Hurdle_0.05_0_1000_19992021.Rdata")
