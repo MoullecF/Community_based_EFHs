@@ -5,6 +5,8 @@
 # -----------------------------------------------------------------------------
 # Setup
 # -----------------------------------------------------------------------------
+
+source("./0-Load libraries.R")
 source("ggplot_theme.R")
 
 # Load fitted models
@@ -146,6 +148,6 @@ gg.VP.Mabu <- plot_vp(
 # -----------------------------------------------------------------------------
 # Combine plots
 # -----------------------------------------------------------------------------
-VP <- gg.VP.Mpa + gg.VP.Mabu + plot_layout(guides = "collect", widths = c(1, 1))
+gg.VP <- gg.VP.Mpa + gg.VP.Mabu + plot_layout(guides = "collect", widths = c(1, 1))
 
-# ggplot2::ggsave(VP, filename = "./Figures/Figure1.png", width = 50, height = 18, units = "cm", dpi = 400)
+# ggplot2::ggsave(gg.VP, filename = "./Figures/Figure1.png", width = 50, height = 18, units = "cm", dpi = 400)
