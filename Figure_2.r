@@ -8,7 +8,7 @@
 
 rm(list = ls())
 source("./0-Load libraries.R")
-source("./Scripts_figures/ggplot_theme.R")
+source("./ggplot_theme.R")
 
 # -----------------------------------------------------------------------------
 # Data preparation
