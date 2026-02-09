@@ -108,4 +108,4 @@ for (i in 1:length(list.Pred)) {
   r.stack.year <- stack(r.stack.year, r.stack)
 }
 
-save(r.stack.year, file = "./Outputs/Spatio_temporal_prediction/r_stack_Hurdle_0.05_0_1000_19992021.Rdata")
+# save(r.stack.year, file = "./Outputs/Spatio_temporal_prediction/r_stack_Hurdle_0.05_0_1000_19992021.Rdata")

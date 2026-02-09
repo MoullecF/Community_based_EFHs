@@ -6,6 +6,7 @@
 # Setup
 # -----------------------------------------------------------------------------
 
+rm(list = ls())
 source("./0-Load libraries.R")
 source("ggplot_theme.R")
 
