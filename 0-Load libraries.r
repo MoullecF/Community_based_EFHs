@@ -5,7 +5,7 @@ required_packages <- c(
   "ggpubr", "wesanderson", "jsonify", "abind", "corrplot", "stringr",
   "reshape2", "ggplot2", "gridExtra", "grid", "cowplot", "viridis", "ggsci",
   "ggnewscale", "ggthemes", "patchwork", "gtable", "PupillometryR",
-  "Routliers", "trend", "RColorBrewer", "ggtext"
+  "Routliers", "trend", "RColorBrewer", "ggtext", "sfdep", "spdep", "rnaturalearth", "rnaturalearthdata"
 )
 
 to_install <- setdiff(required_packages, rownames(installed.packages()))
