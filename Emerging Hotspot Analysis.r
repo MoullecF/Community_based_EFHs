@@ -86,6 +86,7 @@ run_ehsa <- function(stage_name, raster_stack) {
 # Run EHSA per life stage
 # -----------------------------------------------------------------------------
 
+# Note: EHSA runs can take a long time depending on grid size and years.
 for (stage in stages_to_run) {
   ehsa <- run_ehsa(stage, raster_stack)
   output_path <- paste0("./Outputs/EHSA/ehsa_", stage, ".rds")
