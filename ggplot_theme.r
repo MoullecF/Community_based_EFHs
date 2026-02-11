@@ -21,8 +21,8 @@ HMSC.theme <- ggplot2::theme(
   panel.background = element_blank(),
   axis.line = element_line(colour = "black"),
   plot.title = element_text(color = "black", size = 14, face = "bold", hjust = 0.5),
-  # plot.margin = unit(c(1, 1, 1, 1), units = , "cm")
-  plot.margin = unit(c(0, 0, 0, 0), units = , "cm")
+  # Use explicit units to avoid parse errors when sourcing.
+  plot.margin = unit(c(0, 0, 0, 0), "cm")
 )
 
 ## Utility: shift legend into empty facet panels
