@@ -255,6 +255,13 @@ cs_legend_col <- c(
 hs_df$Classification <- factor(hs_df$Classification, levels = hs_levels)
 cs_df$Classification <- factor(cs_df$Classification, levels = cs_levels)
 
+# Save combined hotspot and coldspot spatial datasets as a single sf object.
+combined_hs_cs <- bind_rows(
+  hs_df %>% mutate(Spot = "Hotspots"),
+  cs_df %>% mutate(Spot = "Coldspots")
+)
+# saveRDS(combined_hs_cs, "./Outputs/EHSA/Combined_HS_CS.RDS")
+
 # -----------------------------------------------------------------------------
 # Figure 5: Hotspot and coldspot maps
 # -----------------------------------------------------------------------------
