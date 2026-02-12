@@ -17,20 +17,8 @@ load(file = "Inputs_HMSC/allData.RData")
 
 world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
 
-grid <- sf::st_read("./Inputs_HMSC/grid/grid_0.05_rectangles.shp") %>%
-  st_filter(
-    st_as_sfc(
-      st_bbox(
-        c(
-          xmin = min(S$Long, na.rm = TRUE) - 1,
-          xmax = max(S$Long, na.rm = TRUE) + 1,
-          ymin = min(S$Lat, na.rm = TRUE) - 1,
-          ymax = max(S$Lat, na.rm = TRUE) + 1
-        ),
-        crs = st_crs(.)
-      )
-    )
-  )
+grid <- sf::st_read("./Inputs_HMSC/grid/grid_0.05_rectangles.shp")
+grid <- grid[!grid$bottom >43 | !grid$right<0,]
 
 S <- S %>%
   mutate(gsa = factor(sub("^([0-9]+).*", "\\1", id),
@@ -82,7 +70,7 @@ gg_map_medits_hauls <- ggplot(world) +
     legend.position = "bottom"
   )
 
-ggplot2::ggsave(gg_map_medits_hauls, filename = "./Figures/Figure_S1.png", width = 20, height = 15, units = "cm", dpi = 400)
+# ggplot2::ggsave(gg_map_medits_hauls, filename = "./Figures/Figure_S1.png", width = 20, height = 15, units = "cm", dpi = 400)
 
 # -----------------------------------------------------------------------------
 # Figure S2: Number of hauls per year
@@ -141,5 +129,5 @@ gg_number_hauls_gsa <- ggplot(haul_counts_gsa, aes(Year, gsa, fill = haul_count)
   theme_bw() +
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())
 
-ggplot2::ggsave(gg_number_hauls_gsa, filename = "./Figures/Figure_S3.png", width = 20, height = 15, units = "cm", dpi = 400)
+# ggplot2::ggsave(gg_number_hauls_gsa, filename = "./Figures/Figure_S3.png", width = 20, height = 15, units = "cm", dpi = 400)
 
