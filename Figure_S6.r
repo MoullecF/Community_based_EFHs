@@ -115,4 +115,4 @@ gg_explained_power <- ggplot(performance_plot, aes(x = variable, y = value, fill
   labs(y = "Value", x = NULL) +
   theme_bw()
 
-ggplot2::ggsave(gg_explained_power, filename = "./Figures/Figure_S6.png", width = 30, height = 15, units = "cm", dpi = 400)
+# ggplot2::ggsave(gg_explained_power, filename = "./Figures/Figure_S6.png", width = 30, height = 15, units = "cm", dpi = 400)
