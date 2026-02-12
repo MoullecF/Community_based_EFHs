@@ -359,14 +359,14 @@ majority_map <- ggplot() +
     breaks = majority_levels,
     limits = majority_levels,
     drop = FALSE,
-    name = "Dominant protection (>=50% of cell)",
+    name = "Dominant protection (>=50% of grid cell)",
     guide = guide_legend(
       override.aes = list(alpha = 1)   # force legend fill visible
     )
   ) +
   labs(x = "Longitude", y = "Latitude") +
   theme(
-    plot.title = element_blank()
+    plot.title = element_blank(),
     panel.grid.major = element_blank(),
     panel.border = element_rect(colour = "black", fill = NA, linewidth = 1),
     panel.background = element_rect(fill = "white"),
