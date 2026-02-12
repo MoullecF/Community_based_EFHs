@@ -419,4 +419,4 @@ majority_with_bar <- majority_map + bar_hotspots +
     legend.margin = margin()
   )
   
-ggplot2::ggsave(majority_with_bar, filename = "./Figures/Figure_7.png", width = 45, height = 20, units = "cm", dpi = 400)
+# ggplot2::ggsave(majority_with_bar, filename = "./Figures/Figure_7.png", width = 45, height = 20, units = "cm", dpi = 400)
