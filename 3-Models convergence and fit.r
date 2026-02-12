@@ -105,16 +105,16 @@ wilcox_result <- wilcox.test(value ~ onto, data = tab_auc)
 # Figure S6: Model fit indicators
 # ------------------------------------------------------------------------------
 
-indic <- c("AUC", "TjurR2", "R2")
-tab.fit <- tab[tab$variable %in% indic, ]
+# indic <- c("AUC", "TjurR2", "R2")
+# tab.fit <- tab[tab$variable %in% indic, ]
 
-gg.expl_power <- ggplot(tab.fit, aes(x = variable, y = value, fill = onto)) + 
-  geom_boxplot(alpha = .7, outlier.shape = NA) +
-  geom_jitter(position = position_jitterdodge(jitter.width = .15), alpha = .2, shape = 21) +
-  scale_fill_manual(values = c("#E69F00", "#56B4E9"), name = "Life stage", labels = c("Adult", "Juvenile")) +
-  labs(y = "Value", x = NULL) +
-  theme_bw()
+# gg.expl_power <- ggplot(tab.fit, aes(x = variable, y = value, fill = onto)) + 
+#  geom_boxplot(alpha = .7, outlier.shape = NA) +
+#  geom_jitter(position = position_jitterdodge(jitter.width = .15), alpha = .2, shape = 21) +
+#  scale_fill_manual(values = c("#E69F00", "#56B4E9"), name = "Life stage", labels = c("Adult", "Juvenile")) +
+#  labs(y = "Value", x = NULL) +
+#  theme_bw()
 
 # Save Figure S6
-ggplot2::ggsave(gg.expl_power, filename = file.path("Figures", "Figure S6.png"),
-                width = 30, height = 15, units = "cm", dpi = 400)
+#ggplot2::ggsave(gg.expl_power, filename = file.path("Figures", "Figure S6.png"),
+#                width = 30, height = 15, units = "cm", dpi = 400)
