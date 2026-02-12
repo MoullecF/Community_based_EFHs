@@ -111,4 +111,4 @@ plot_traits_abu <- ggplot(traits_beta_abu, aes(x = Variable, y = value_pct, fill
 combined_traits <- plot_traits_mpa + plot_traits_abu +
   plot_layout(guides = "collect", widths = c(1, 1))
 
- ggplot2::ggsave(combined_traits, filename = "./Figures/Figure_S7.png", width = 30, height = 30, units = "cm", dpi = 400)
+# ggplot2::ggsave(combined_traits, filename = "./Figures/Figure_S7.png", width = 30, height = 30, units = "cm", dpi = 400)
