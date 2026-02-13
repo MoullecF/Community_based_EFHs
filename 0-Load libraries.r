@@ -6,7 +6,7 @@ required_packages <- c(
   "reshape2", "ggplot2", "gridExtra", "grid", "cowplot", "viridis", "ggsci",
   "ggnewscale", "ggthemes", "patchwork", "gtable", "PupillometryR",
   "Routliers", "trend", "RColorBrewer", "ggtext", "sfdep", "spdep", "rnaturalearth",
-  "rnaturalearthdata", "forcats"
+  "rnaturalearthdata", "forcats", "zenodor"
 )
 
 to_install <- setdiff(required_packages, rownames(installed.packages()))
@@ -15,4 +15,3 @@ if (length(to_install) > 0) install.packages(to_install, dependencies = TRUE)
 invisible(lapply(required_packages, library, character.only = TRUE))
 
 #source("C:/Users/fabie/Documents/Scripts R/Thèse/Rfunctions/bround.R")
-#source("C:/Users/fabie/Documents/Scripts R/Divers/ggplot_hmsc_functions.R")
