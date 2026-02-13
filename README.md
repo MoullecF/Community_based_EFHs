@@ -1,15 +1,16 @@
 # Congruent life stage hotspots identify community-based essential fish habitats and conservation gaps 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Data: CC BY 4.0](https://img.shields.io/badge/Data%20License-CC%20BY%204.0-brightgreen.svg)](https://creativecommons.org/licenses/by/4.0/)
 
 Open-science code and data to model, map, and analyze community-based Essential Fish Habitats (EFHs) across the Western Mediterranean Sea using hierarchical joint species distribution models (HMSC) and hurdle models, followed by spatio-temporal prediction, hotspot analysis, and MPA coverage assessment.
 
 All figures can be regenerated directly from the provided outputs (once the hurdle stack is downloaded from Zenodo), without rerunning scripts 1–5.
 
-## Purpose
+## Purpose ![target](https://img.shields.io/badge/-purpose-37474f?style=flat-square)
 - Quantify species distributions and abundances with HMSC (presence/absence and abundance components).
 - Generate spatio-temporal predictions and hurdle-model products for multiple life stages.
 - Identify emerging hotspots/coldspots and evaluate marine protected area (MPA) coverage of EFH patterns.
 
-## Methods and Workflow
+## Methods and Workflow ![workflow](https://img.shields.io/badge/-workflow-00695c?style=flat-square)
 1. **Model specification**: Assemble inputs and define HMSC models ([1-Define HMSC models.r](1-Define%20HMSC%20models.r)).
 2. **Model fitting**: Fit presence/absence and abundance models (supports HPC workflows) ([2_1-Fit presence absence model.r](2_1-Fit%20presence%20absence%20model.r), [2_2-Fit abundance model.r](2_2-Fit%20abundance%20model.r)); Slurm job scripts for cluster runs are available in [Models/](Models).
 3. **Diagnostics**: Assess convergence, effective sample sizes, and PSRF ([3-Models convergence and fit.r](3-Models%20convergence%20and%20fit.r)).
@@ -18,21 +19,21 @@ All figures can be regenerated directly from the provided outputs (once the hurd
 6. **Hotspot analysis**: Emerging Hotspot Analysis (EHSA) and visualization scripts ([Emerging Hotspot Analysis.r](Emerging%20Hotspot%20Analysis.r), [Figure_1.r](Figure_1.r)).
 7. **MPA coverage**: Quantify overlap of hotspot classes with marine protected areas ([Figure_7.r](Figure_7.r)).
 
-## Inputs and Data
+## Inputs and Data ![data](https://img.shields.io/badge/-data-283593?style=flat-square)
 - **Primary inputs**: RData objects and spatial layers in [Inputs_HMSC/](Inputs_HMSC).
   - Species/community matrices, traits, and covariates (e.g., `allData.RData`, `Traits.RData`).
   - Prediction grids and protection layers (shapefiles in `Grid/` and `protectionPLactivities_niv1&2&3&4/`).
 - **Model checkpoints**: Fitted models and MCMC outputs in [Models/](Models).
 - **Hurdle prediction stack**: Spatio-temporal raster stack available on Zenodo (DOI: 10.5281/zenodo.18632167). Use [download_zenodo_spatiotemporal.R](download_zenodo_spatiotemporal.R) to place `r_stack_Hurdle_0.05_0_1000_19992021.Rdata` into [Outputs/Spatio_temporal_prediction/](Outputs/Spatio_temporal_prediction); download this file before running scripts that depend on the hurdle stack (e.g., [Emerging Hotspot Analysis.r](Emerging%20Hotspot%20Analysis.r), [Figure_2.r](Figure_2.r), [Figure_3_4.r](Figure_3_4.r), [Figure_5_6.r](Figure_5_6.r)).
 
-## Outputs
+## Outputs ![outputs](https://img.shields.io/badge/-outputs-5d4037?style=flat-square)
 - Posterior samples and means for presence/absence and abundance: [Outputs/Presence_Absence_posteriors/](Outputs/Presence_Absence_posteriors), [Outputs/Abundance_posteriors/](Outputs/Abundance_posteriors), [Outputs/Presence_Absence_mean_posterior/](Outputs/Presence_Absence_mean_posterior), [Outputs/Abundance_mean_posterior/](Outputs/Abundance_mean_posterior). Full posterior outputs are several hundred GB and not hosted on Zenodo; they can be requested from fabien.moullec@umontpellier.fr.
 - Hurdle predictions (combined): [Outputs/Hurdle_prediction/](Outputs/Hurdle_prediction). These combined hurdle outputs are large and not mirrored on Zenodo; contact fabien.moullec@umontpellier.fr if you need access.
 - Spatio-temporal hurdle stack: [Outputs/Spatio_temporal_prediction/](Outputs/Spatio_temporal_prediction). Source data are hosted on Zenodo (see the hurdle prediction stack entry above).
 - EHSA results: [Outputs/EHSA/](Outputs/EHSA).
 - Figures and supplementary plots: [Figures/](Figures).
 
-## Installation and Environment
+## Installation and Environment ![setup](https://img.shields.io/badge/-setup-546e7a?style=flat-square)
 - **R version**: Tested with R (>= 4.2.x).
 - **Core packages**: Listed in [0-Load libraries.r](0-Load%20libraries.r); major dependencies include `Hmsc`, `raster`, `sf`, `ggplot2`, `dplyr`, `zenodor`, and others.
 - **Install dependencies**: The loader script installs missing CRAN packages; `zenodor` is installed from GitHub. From the repo root:
@@ -43,7 +44,7 @@ source("0-Load libraries.r")
 
 If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zenodor")` inside [download_zenodo_spatiotemporal.R](download_zenodo_spatiotemporal.R).
 
-## Basic Usage
+## Basic Usage ![run](https://img.shields.io/badge/-run-1b5e20?style=flat-square)
 1. Load packages and data paths:
    ```r
    source("0-Load libraries.r")
@@ -72,7 +73,7 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
    ```
 7. Generate hotspot analyses and figures as needed (e.g., `Emerging Hotspot Analysis.r`, `Figure_*.r`).
 
-## Repository Structure
+## Repository Structure ![folders](https://img.shields.io/badge/-folders-3949ab?style=flat-square)
 - [0-Load libraries.r](0-Load%20libraries.r): Dependency management and loading.
 - [1-Define HMSC models.r](1-Define%20HMSC%20models.r): Model setup and data preparation.
 - [2_1-Fit presence absence model.r](2_1-Fit%20presence%20absence%20model.r), [2_2-Fit abundance model.r](2_2-Fit%20abundance%20model.r): Model fitting workflows.
@@ -80,15 +81,15 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
 - [4-Spatial predictions with fitted HMSC.r](4-Spatial%20predictions%20with%20fitted%20HMSC.r): Spatial posterior predictions.
 - [5-Hurdle model predictions.r](5-Hurdle%20model%20predictions.r): Combine components into hurdle outputs.
 - [Emerging Hotspot Analysis.r](Emerging%20Hotspot%20Analysis.r) and [Figure_*.r](Figure_1.r): Hotspot analysis.
-- [Inputs_HMSC/](Inputs_HMSC): Input data and spatial layers.
-- [Models/](Models): Fitted model objects and initialization files.
-- [Outputs/](Outputs): Generated predictions, EHSA results, and hurdle outputs (git-ignored intermediates where appropriate).
+- ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Inputs_HMSC/](Inputs_HMSC): Input data and spatial layers.
+- ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Models/](Models): Fitted model objects and initialization files.
+- ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Outputs/](Outputs): Generated predictions, EHSA results, and hurdle outputs (git-ignored intermediates where appropriate).
 
-## Citation
+## Citation ![cite](https://img.shields.io/badge/-cite-4e342e?style=flat-square)
 If you use this code or data, please cite:
 - **Dataset**: Moullec, F. (2026). *Community-based Essential Fish Habitats in Mediterranean Sea* (Version V1.0.0). Zenodo. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167)
 - **Code**: This GitHub repository (MoullecF/Community_based_EFHs, main branch).
 - **Associated publication**: Cite the corresponding article when available (see repository or Zenodo record for updates).
 
-## License
+## License ![license](https://img.shields.io/badge/-license-263238?style=flat-square)
 This project is released under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.
