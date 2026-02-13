@@ -1,4 +1,4 @@
-# Community-based Essential Fish Habitats and MPA Coverage (Mediterranean Sea)
+# Congruent life stage hotspots identify community-based essential fish habitats and conservation gaps 
 
 Open-science code and data to model, map, and analyze community-based Essential Fish Habitats (EFHs) across the Western Mediterranean using hierarchical joint species distribution models (HMSC) and hurdle models, followed by spatio-temporal prediction, hotspot analysis, and MPA coverage assessment.
 
