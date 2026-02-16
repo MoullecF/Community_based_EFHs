@@ -391,11 +391,11 @@ bar_hotspots <- ggplot(
     expand = c(0, 0)
   ) +
   labs(x = "Proportion of hotspot surface", y = element_blank()) +
-  annotate("text", x = 9, y = 5, label = "Fully protected", size = 11 / .pt) +
-  annotate("text", x = 11, y = 4, label = "Highly protected", size = 11 / .pt) +
-  annotate("text", x = 14, y = 3, label = "Lightly protected", size = 11 / .pt) +
-  annotate("text", x = 32, y = 2, label = "Minimally protected", size = 11 / .pt) +
-  annotate("text", x = 65, y = 1, label = "Unprotected", size = 11 / .pt) +
+  annotate("text", x = 5.5, y = 5, label = "Fully protected", size = 11 / .pt) +
+  annotate("text", x = 7, y = 4, label = "Highly protected", size = 11 / .pt) +
+  annotate("text", x = 9, y = 3, label = "Lightly protected", size = 11 / .pt) +
+  annotate("text", x = 27, y = 2, label = "Minimally protected", size = 11 / .pt) +
+  annotate("text", x = 69, y = 1, label = "Unprotected", size = 11 / .pt) +
   HMSC.theme +
   theme(
     axis.title.x = element_text(face = "plain", size = 14),
@@ -419,4 +419,4 @@ majority_with_bar <- majority_map + bar_hotspots +
     legend.margin = margin()
   )
   
-# ggplot2::ggsave(majority_with_bar, filename = "./Figures/Figure_7.png", width = 45, height = 20, units = "cm", dpi = 400)
+ggplot2::ggsave(majority_with_bar, filename = "./Figures/Figure_7.png", width = 45, height = 20, units = "cm", dpi = 400)
