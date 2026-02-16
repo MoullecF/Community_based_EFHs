@@ -70,7 +70,7 @@ palette_ehsa <- c(
 # Figure 3: EHSA maps
 # -----------------------------------------------------------------------------
 
-plot_ehsa_map <- function(ehsa_sf, show_legend) {
+plot_ehsa_map <- function(ehsa_sf, show_legend, stage_label) {
   # Render classification polygons in the original spatial extent.
   ggplot(data = world) +
     geom_sf(
@@ -82,6 +82,7 @@ plot_ehsa_map <- function(ehsa_sf, show_legend) {
     ) +
     scale_fill_manual(values = palette_ehsa) +
     geom_sf(fill = "grey90", color = "grey20") +
+    annotate("text", x = -3.4, y = 44, label = stage_label, fontface = "bold") +
     coord_sf(
       xlim = c(st_bbox(ehsa_sf)[1] - 0.1, st_bbox(ehsa_sf)[3] + 0.1),
       ylim = c(st_bbox(ehsa_sf)[2] - 0.1, st_bbox(ehsa_sf)[4] + 0.1),
@@ -100,14 +101,15 @@ plot_ehsa_map <- function(ehsa_sf, show_legend) {
     )
 }
 
-ehsa_juv_90 <- plot_ehsa_map(ehsa_juvenile_90, show_legend = TRUE)
+ehsa_juv_90 <- plot_ehsa_map(ehsa_juvenile_90, show_legend = TRUE, stage_label = "Juveniles")
 ehsa_juv_90
 
-ehsa_adu_90 <- plot_ehsa_map(ehsa_adult_90, show_legend = FALSE)
+ehsa_adu_90 <- plot_ehsa_map(ehsa_adult_90, show_legend = FALSE, stage_label = "Adults")
 ehsa_adu_90
 
 map_ehsa <- ehsa_juv_90 / ehsa_adu_90 +
-  plot_layout(guides = "collect") &
+  plot_layout(guides = "collect") +
+  plot_annotation(tag_levels = "A") &
   theme(legend.position = "right")
 
 ggplot2::ggsave(

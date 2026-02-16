@@ -154,7 +154,7 @@ col_vec_adult <- c(rev(col_neg_adult), col_pos_adult)
 # Plotting
 # -----------------------------------------------------------------------------
 
-plot_trend_map <- function(slope_df, pvalue_df, color_values) {
+plot_trend_map <- function(slope_df, pvalue_df, color_values, stage_label) {
   # Use transparency and point overlay to indicate non-significant trends.
   ggplot() +
     geom_tile(
@@ -174,12 +174,13 @@ plot_trend_map <- function(slope_df, pvalue_df, color_values) {
       alpha = 1 / 5
     ) +
     geom_sf(data = world, fill = "grey90", color = "grey20") +
+    annotate("text", x = -3.4, y = 44, label = stage_label, fontface = "bold") +
     coord_sf(
       xlim = c(range(slope_df$x)[1] - 0.1, range(slope_df$x)[2] + 0.1),
       ylim = c(range(slope_df$y)[1] - 0.1, range(slope_df$y)[2] + 0.1),
       expand = FALSE
     ) +
-    labs(fill = "Sen's slope (ind/km^2/year)", x = "Longitude", y = "Latitude") +
+    labs(fill = "Sen's slope (ind/km²/year)", x = "Longitude", y = "Latitude") +
     scale_fill_manual(
       values = color_values,
       na.value = "grey50",
@@ -207,25 +208,18 @@ plot_trend_map <- function(slope_df, pvalue_df, color_values) {
     )
 }
 
-juvenile_plot <- plot_trend_map(slope_df_juvenile, pvalue_df_juvenile, col_vec_juvenile)
-juvenile_plot
-ggplot2::ggsave(
-  juvenile_plot,
-  filename = "./Figures/Figure_2_juveniles_trend.png",
-  width = 30,
-  height = 15,
-  units = "cm",
-  dpi = 400
-)
-
 # Black dots indicate non-significant slopes at the 95% level (Mann-Kendall test).
-adult_plot <- plot_trend_map(slope_df_adult, pvalue_df_adult, col_vec_adult)
-adult_plot
+juvenile_plot <- plot_trend_map(slope_df_juvenile, pvalue_df_juvenile, col_vec_juvenile, "Juveniles")
+adult_plot <- plot_trend_map(slope_df_adult, pvalue_df_adult, col_vec_adult, "Adults")
+combined_plot <- (juvenile_plot + adult_plot) +
+  plot_layout(ncol = 1) +
+  plot_annotation(tag_levels = "A")
+
 ggplot2::ggsave(
-  adult_plot,
-  filename = "./Figures/Figure_2_adults_trend.png",
-  width = 30,
-  height = 15,
+  combined_plot,
+  filename = "./Figures/Figure_2.png",
+  width = 20,
+  height = 30,
   units = "cm",
   dpi = 400
 )
