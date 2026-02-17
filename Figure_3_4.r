@@ -260,7 +260,7 @@ gg_surf_spot <- ggplot(tab_surf, aes(x = onto, y = pct_total, fill = classificat
   scale_fill_manual(values = palette_ehsa_with_other, guide = guide_legend(reverse = TRUE)) +
   scale_y_continuous(
     limits = c(0, 100),
-    breaks = c(0, 25, 33.5, 38.4, 50, 75, 100),
+    breaks = c(0, 25, 33.4, 38.4, 50, 75, 100),
     labels = custom_ylabels,
     expand = c(0, 0)
   ) +
