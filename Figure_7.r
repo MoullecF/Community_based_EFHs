@@ -391,11 +391,11 @@ bar_hotspots <- ggplot(
     expand = c(0, 0)
   ) +
   labs(x = "Proportion of hotspot surface", y = element_blank()) +
-  annotate("text", x = 5.5, y = 5, label = "Fully protected", size = 11 / .pt) +
-  annotate("text", x = 7, y = 4, label = "Highly protected", size = 11 / .pt) +
-  annotate("text", x = 9, y = 3, label = "Lightly protected", size = 11 / .pt) +
-  annotate("text", x = 27, y = 2, label = "Minimally protected", size = 11 / .pt) +
-  annotate("text", x = 69, y = 1, label = "Unprotected", size = 11 / .pt) +
+  annotate("text", x = 8.5, y = 5, label = "Fully protected (~0.02%)", size = 11 / .pt) +
+  annotate("text", x = 9.5, y = 4, label = "Highly protected (~0.3%)", size = 11 / .pt) +
+  annotate("text", x = 12, y = 3, label = "Lightly protected (~2.5%)", size = 11 / .pt) +
+  annotate("text", x = 29.5, y = 2, label = "Minimally protected (~18.5%)", size = 11 / .pt) +
+  annotate("text", x = 69, y = 1, label = "Unprotected (~78.7%)", size = 11 / .pt) +
   HMSC.theme +
   theme(
     axis.title.x = element_text(face = "plain", size = 14),
