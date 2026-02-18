@@ -94,7 +94,7 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
 If you use this code or data, please cite:
 - **Dataset**: Moullec, F. (2026). *Community-based Essential Fish Habitats in Mediterranean Sea* (Version V1.0.0). Zenodo. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167)
 - **Code**: This GitHub repository (MoullecF/Community_based_EFHs, main branch).
-- **Associated publication**: Cite the corresponding article when available (see repository or Zenodo record for updates).
+- **Associated publication**: XXXXXXXX.
 
 ## License ![license](https://img.shields.io/badge/-license-263238?style=flat-square)
 This project is released under the GNU General Public License v3.0. See [LICENSE](LICENSE) for details.
