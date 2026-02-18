@@ -16,7 +16,7 @@ All figures can be regenerated directly from the provided outputs (once the hurd
 3. **Diagnostics**: Assess convergence, effective sample sizes, and PSRF ([3-Models convergence and fit.r](3-Models%20convergence%20and%20fit.r)).
 4. **Spatial predictions**: Generate posterior samples and means over the spatial grid ([4-Spatial predictions with fitted HMSC.r](4-Spatial%20predictions%20with%20fitted%20HMSC.r)).
 5. **Hurdle outputs**: Combine presence/absence and abundance to produce hurdle predictions and derived rasters ([5-Hurdle model predictions.r](5-Hurdle%20model%20predictions.r)).
-6. **Hotspot analysis**: Emerging Hotspot Analysis (EHSA) and visualization scripts ([Emerging Hotspot Analysis.r](Emerging%20Hotspot%20Analysis.r), [Figure_1.r](Figure_1.r)).
+6. **Hotspot analysis**: Emerging Hotspot Analysis (EHSA) and visualization scripts ([6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r), [Figure_3_4.r](Figure_3_4.r), [Figure_5_6.r](Figure_5_6.r)).
 7. **MPA coverage**: Quantify overlap of hotspot classes with marine protected areas ([Figure_7.r](Figure_7.r)).
 
 ## Inputs and Data ![data](https://img.shields.io/badge/-data-283593?style=flat-square)
@@ -24,7 +24,7 @@ All figures can be regenerated directly from the provided outputs (once the hurd
   - Species/community matrices, traits, and covariates (e.g., `allData.RData`, `Traits.RData`).
   - Prediction grids and protection layers (shapefiles in `Grid/` and `protectionPLactivities_niv1&2&3&4/`).
 - **Model checkpoints**: Fitted models and MCMC outputs in [Models/](Models).
-- **Hurdle prediction stack**: Spatio-temporal raster stack available on Zenodo [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167). Use [download_zenodo_spatiotemporal.R](download_zenodo_spatiotemporal.R) to place `r_stack_Hurdle_0.05_0_1000_19992021.Rdata` into [Outputs/Spatio_temporal_prediction/](Outputs/Spatio_temporal_prediction); download this file before running scripts that depend on the hurdle stack (e.g., [Emerging Hotspot Analysis.r](Emerging%20Hotspot%20Analysis.r), [Figure_2.r](Figure_2.r), [Figure_3_4.r](Figure_3_4.r), [Figure_5_6.r](Figure_5_6.r)).
+- **Hurdle prediction stack**: Spatio-temporal raster stack available on Zenodo [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167). Use [download_zenodo_spatiotemporal.R](download_zenodo_spatiotemporal.R) to place `r_stack_Hurdle_0.05_0_1000_19992021.Rdata` into [Outputs/Spatio_temporal_prediction/](Outputs/Spatio_temporal_prediction); download this file before running scripts that depend on the hurdle stack (e.g., [6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r), [Figure_2.r](Figure_2.r), [Figure_3_4.r](Figure_3_4.r), [Figure_5_6.r](Figure_5_6.r)).
 
 ## Outputs ![outputs](https://img.shields.io/badge/-outputs-5d4037?style=flat-square)
 - Posterior samples and means for presence/absence and abundance: [Outputs/Presence_Absence_posteriors/](Outputs/Presence_Absence_posteriors), [Outputs/Abundance_posteriors/](Outputs/Abundance_posteriors), [Outputs/Presence_Absence_mean_posterior/](Outputs/Presence_Absence_mean_posterior), [Outputs/Abundance_mean_posterior/](Outputs/Abundance_mean_posterior). Full posterior outputs are several hundred GB and not hosted on Zenodo; they can be requested from fabien.moullec@umontpellier.fr.
@@ -71,7 +71,7 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
    ```r
    source("download_zenodo_spatiotemporal.R")
    ```
-7. Generate hotspot analyses and figures as needed (e.g., `Emerging Hotspot Analysis.r`, `Figure_*.r`).
+7. Generate hotspot analyses and figures as needed (e.g., `6-Emerging Hotspot Analysis.r`, `Figure_*.r`).
 
 ## Repository Structure ![folders](https://img.shields.io/badge/-folders-3949ab?style=flat-square)
 - [0-Load libraries.r](0-Load%20libraries.r): Dependency management and loading.
@@ -80,7 +80,7 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
 - [3-Models convergence and fit.r](3-Models%20convergence%20and%20fit.r): Diagnostics.
 - [4-Spatial predictions with fitted HMSC.r](4-Spatial%20predictions%20with%20fitted%20HMSC.r): Spatial posterior predictions.
 - [5-Hurdle model predictions.r](5-Hurdle%20model%20predictions.r): Combine components into hurdle outputs.
-- [Emerging Hotspot Analysis.r](Emerging%20Hotspot%20Analysis.r) and [Figure_*.r](Figure_1.r): Hotspot analysis.
+- [6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r) and [Figure_*.r](Figure_1.r): Hotspot analysis.
 - ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Inputs_HMSC/](Inputs_HMSC): Input data and spatial layers.
 - ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Models/](Models): Fitted model objects and initialization files.
 - ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Outputs/](Outputs): Generated predictions, EHSA results, and hurdle outputs (git-ignored intermediates where appropriate).
