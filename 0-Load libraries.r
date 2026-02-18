@@ -13,5 +13,3 @@ to_install <- setdiff(required_packages, rownames(installed.packages()))
 if (length(to_install) > 0) install.packages(to_install, dependencies = TRUE)
 
 invisible(lapply(required_packages, library, character.only = TRUE))
-
-#source("C:/Users/fabie/Documents/Scripts R/Thèse/Rfunctions/bround.R")
