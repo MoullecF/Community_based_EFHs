@@ -86,7 +86,7 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
 - [5-Hurdle model predictions.r](5-Hurdle%20model%20predictions.r): Combine components into hurdle outputs.
 - [6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r): Emerging Hotspot Analysis workflow.
 - Figure-generation scripts: all [Figure_*.r](Figure_1.r) scripts in the repository root (including main and supplementary figures; e.g., [Figure_7.r](Figure_7.r), [Figure_S8_S9.r](Figure_S8_S9.r)).
-- ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Inputs_HMSC/](Inputs_HMSC): Input data and spatial layers.
+- [:file\_folder: **Inputs_HMSC**](Inputs_HMSC/): Input data and spatial layers.
 - ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Models/](Models): Fitted model objects and initialization files.
 - ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Outputs/](Outputs): Generated predictions, EHSA results, and hurdle outputs (git-ignored intermediates where appropriate).
 
