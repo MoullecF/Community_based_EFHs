@@ -71,7 +71,11 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
    ```r
    source("download_zenodo_spatiotemporal.R")
    ```
-7. Generate hotspot analyses and figures as needed (e.g., `6-Emerging Hotspot Analysis.r`, `Figure_*.r`).
+7. Run Emerging Hotspot Analysis (EHSA):
+   ```r
+   source("6-Emerging Hotspot Analysis.r")
+   ```
+8. Generate figures as needed (e.g., `Figure_1.r`, `Figure_2.r`, `Figure_3_4.r`, `Figure_5_6.r`, `Figure_7.r`).
 
 ## Repository Structure ![folders](https://img.shields.io/badge/-folders-3949ab?style=flat-square)
 - [0-Load libraries.r](0-Load%20libraries.r): Dependency management and loading.
@@ -80,7 +84,8 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
 - [3-Models convergence and fit.r](3-Models%20convergence%20and%20fit.r): Diagnostics.
 - [4-Spatial predictions with fitted HMSC.r](4-Spatial%20predictions%20with%20fitted%20HMSC.r): Spatial posterior predictions.
 - [5-Hurdle model predictions.r](5-Hurdle%20model%20predictions.r): Combine components into hurdle outputs.
-- [6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r) and [Figure_*.r](Figure_1.r): Hotspot analysis.
+- [6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r): Emerging Hotspot Analysis workflow.
+- Figure-generation scripts: all [Figure_*.r](Figure_1.r) scripts in the repository root (including main and supplementary figures; e.g., [Figure_7.r](Figure_7.r), [Figure_S8_S9.r](Figure_S8_S9.r)).
 - ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Inputs_HMSC/](Inputs_HMSC): Input data and spatial layers.
 - ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Models/](Models): Fitted model objects and initialization files.
 - ![folder](https://img.shields.io/badge/-folder-blue?style=flat-square&logo=files&logoColor=white) [Outputs/](Outputs): Generated predictions, EHSA results, and hurdle outputs (git-ignored intermediates where appropriate).
