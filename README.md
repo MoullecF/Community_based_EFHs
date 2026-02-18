@@ -75,7 +75,7 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
    ```r
    source("6-Emerging Hotspot Analysis.r")
    ```
-8. Generate figures as needed (e.g., `Figure_1.r`, `Figure_2.r`, `Figure_3_4.r`, `Figure_5_6.r`, `Figure_7.r`).
+8. Generate figures as needed (e.g., `Figure_1.r`, `Figure_2.r`, `Figure_3_4.r`, `Figure_5_6.r`, `Figure_7.r` or `Figure_S*.r`).
 
 ## Repository Structure ![folders](https://img.shields.io/badge/-folders-3949ab?style=flat-square)
 - [0-Load libraries.r](0-Load%20libraries.r): Dependency management and loading.
