@@ -78,43 +78,6 @@ summary_all <- bind_rows(protected_areas, unprotected_areas) %>%
   )
 
 # -----------------------------------------------------------------------------
-# Bar plots of protection coverage
-# -----------------------------------------------------------------------------
-
-# Color scale matching protection categories, shared with majority map.
-protection_palette <- c("Unprotected" = "gray90", "Minimally" = "#bdd7e7",
-        "Lightly" = "#6baed6", "Highly" = "#3182bd", "Fully" = "#08519c")
-
-
-# Horizontal bar chart showing hotspot surface by protection level.
-bar_hotspots <- ggplot(
-  summary_all[summary_all$Spot == "Hotspots", ],
-  aes(x = prop, y = protctn, fill = protctn)
-) +
-  geom_bar(stat = "identity", colour = "white", linewidth = 0.4, show.legend = FALSE) +
-  scale_fill_manual(values = protection_palette, drop = FALSE) +
-  scale_x_continuous(
-    breaks = c(0, 3, 19, 79),
-    labels = c("0", "3%", "19%", "79%"),
-    limits = c(0, 80),
-    expand = c(0, 0)
-  ) +
-  labs(x = "Proportion of hotspot surface", y = element_blank()) +
-  annotate("text", x = 9, y = 5, label = "Fully protected", size = 11 / .pt) +
-  annotate("text", x = 11, y = 4, label = "Highly protected", size = 11 / .pt) +
-  annotate("text", x = 14, y = 3, label = "Lightly protected", size = 11 / .pt) +
-  annotate("text", x = 32, y = 2, label = "Minimally protected", size = 11 / .pt) +
-  annotate("text", x = 65, y = 1, label = "Unprotected", size = 11 / .pt) +
-  HMSC.theme +
-  theme(
-    axis.title.x = element_text(face = "plain", size = 14),
-    axis.text.x = element_text(face = "plain", size = 12),
-    axis.title.y = element_text(face = "plain", size = 8),
-    axis.text.y = element_blank(),
-    plot.margin = margin(0, 0, 0, 0)
-  )
-
-# -----------------------------------------------------------------------------
 # Per-cell protection coverage
 # -----------------------------------------------------------------------------
 
@@ -126,8 +89,8 @@ df_spots <- df_spots %>%
 # Intersect each spot cell with MPAs and compute proportional coverage.
 cell_intersections <- st_intersection(df_spots, mpa_polygons) %>%
   mutate(
-    intersection_area = st_area(geometry),  # Area of overlap.
-    prop_cover = as.numeric(intersection_area / spot_area)  # Fraction covered.
+    intersection_area = st_area(geometry),  # Area of overlap
+    prop_cover = as.numeric(intersection_area / spot_area)  # Fraction covered
   )
 
 # Pivot to wide format: one column per protection level.
@@ -180,128 +143,44 @@ hotspots_long <- hotspots %>%
   st_transform(4326)  # WGS84 for display.
 
 # -----------------------------------------------------------------------------
-# Helper function for protection category maps
+# Dominant protection map (highest coverage)
 # -----------------------------------------------------------------------------
 
-# make_protection_map <- function(data, category_name, subtitle_color, x_label, y_label, show_legend) {
-#   # Render spatial coverage for a single protection level.
-#   # Filters data to one category and maps % coverage per cell.
-#   cat_data <- data[data$category == category_name, ]
-#   
-#   ggplot(cat_data) +
-#     geom_sf(aes(fill = proportion), color = NA, lwd = 0.05, show.legend = show_legend) +
-#     geom_sf(data = world, fill = "grey90", color = "grey20") +
-#     coord_sf(
-#       xlim = c(st_bbox(data)[1] - 0.1, st_bbox(data)[3] + 0.15),
-#       ylim = c(st_bbox(data)[2] - 0.1, st_bbox(data)[4] + 0.15),
-#       expand = FALSE
-#     ) +
-#     scale_fill_viridis_c(
-#       option = "viridis",
-#       name = "Percentage of cell area",
-#       labels = function(x) paste0(x, "%")
-#     ) +
-#     labs(x = x_label, y = y_label, subtitle = category_name) +
-#     guides(
-#       shape = guide_legend(override.aes = list(size = 0.2)),
-#       fill = guide_colorbar(title.position = "top")
-#     ) +
-#     theme(
-#       panel.grid.major = element_blank(),
-#       panel.border = element_rect(colour = "black", fill = NA, linewidth = 1),
-#       panel.background = element_rect(fill = "white"),
-#       axis.text = element_text(size = 12),
-#       legend.title = element_text(size = 14),
-#       legend.text = element_text(size = 12),
-#       legend.key = element_rect(color = "white"),
-#       plot.margin = unit(c(0, 0, 0, 0), "pt"),
-#       plot.subtitle = element_text(face = "bold", color = subtitle_color, size = 14)
-#     )
-# }
-
-# # -----------------------------------------------------------------------------
-# # Individual protection category maps
-# # -----------------------------------------------------------------------------
-
-# # Build five maps (one per protection category) and customize legend placement.
-# # Each map shows % of cell area under that protection level.
-# map_unprotected <- make_protection_map(
-#   hotspots_long, "Unprotected", "gray", element_blank(), "Latitude", TRUE
-# ) +
-#   theme(
-#     legend.position = "bottom",
-#     legend.direction = "horizontal",
-#     legend.key.height = unit(16, "pt"),
-#     legend.key.width = unit(70, "pt")
-#   )
-
-# map_minimally <- make_protection_map(
-#   hotspots_long, "Minimally", "#bdd7e7", element_blank(), element_blank(), FALSE
-# )
-
-# map_lightly <- make_protection_map(
-#   hotspots_long, "Lightly", "#6baed6", element_blank(), element_blank(), FALSE
-# )
-
-# map_highly <- make_protection_map(
-#   hotspots_long, "Highly", "#3182bd", "Longitude", "Latitude", FALSE
-# )
-
-# map_fully <- make_protection_map(
-#   hotspots_long, "Fully", "#08519c", "Longitude", element_blank(), FALSE
-# )
-
-# # -----------------------------------------------------------------------------
-# # Composite figure
-# # -----------------------------------------------------------------------------
-
-# # Combine five spatial maps + one bar chart in a multi-panel layout.
-# full_hs_plot <- map_unprotected + map_minimally + map_lightly +
-#   map_highly + map_fully + bar_hotspots +
-#   plot_layout(guides = "collect", axis_titles = "collect") &
-#   theme(
-#     legend.position = "bottom",
-#     legend.title.position = "top",
-#     legend.box = "horizontal",
-#     legend.margin = margin()
-#   )
-
-# # Save output as high-resolution PNG.
-# ggplot2::ggsave(
-#   full_hs_plot,
-#   filename = "./Figures/Figure_7.png",
-#   width = 45,
-#   height = 20,
-#   units = "cm",
-#   dpi = 400
-# )
-
-# -----------------------------------------------------------------------------
-# Majority protection map (>50% coverage) for hotspots
-# -----------------------------------------------------------------------------
-
-# Classify each hotspot cell by the protection level that covers >50% of its area.
-# If no level exceeds 50%, label as "Unprotected".
-hotspots_majority <- hotspots %>%
+# Classify each hotspot cell by the protection level with the highest
+# proportional coverage, including Unprotected as the lowest "protection level".
+hotspots_dominant <- hotspots %>%
   mutate(
-    max_cover = pmax(`1`, `2`, `3`, `4`, na.rm = TRUE),
-    majority = case_when(
-      `4` >= 50 & `4` == max_cover ~ "Fully",
-      `3` >= 50 & `3` == max_cover ~ "Highly",
-      `2` >= 50 & `2` == max_cover ~ "Lightly",
-      `1` >= 50 & `1` == max_cover ~ "Minimally",
+    `1` = coalesce(`1`, 0),
+    `2` = coalesce(`2`, 0),
+    `3` = coalesce(`3`, 0),
+    `4` = coalesce(`4`, 0),
+    unprotected = coalesce(unprotected, 0),
+    max_cover = pmax(`1`, `2`, `3`, `4`, unprotected, na.rm = TRUE),
+    dominant = case_when(
+      `4` == max_cover ~ "Fully",
+      `3` == max_cover ~ "Highly",
+      `2` == max_cover ~ "Lightly",
+      `1` == max_cover ~ "Minimally",
+      unprotected == max_cover ~ "Unprotected",
       TRUE ~ "Unprotected"
     ),
-    majority = factor(
-      majority,
+    dominant = factor(
+      dominant,
       levels = c("Unprotected", "Minimally", "Lightly", "Highly", "Fully")
     )
   ) %>%
   st_transform(4326)
 
-# --------------------------------------------------
+dominant_count <- hotspots_dominant %>%
+  st_drop_geometry() %>%
+  count(dominant, name = "n_cells") %>%
+  mutate(prop_cells = round((n_cells / sum(n_cells)) * 100, 2))
+
+print(dominant_count)
+
+# -----------------------------------------------------------------------------
 # Palette (ALL levels included)
-# --------------------------------------------------
+# -----------------------------------------------------------------------------
 
 protection_palette <- c(
   "Unprotected" = "grey60",
@@ -311,34 +190,28 @@ protection_palette <- c(
   "Fully"       = "#440154"
 )
 
-majority_levels <- levels(hotspots_majority$majority)
-majority_palette_ordered <- protection_palette[majority_levels]
+dominant_levels <- levels(hotspots_dominant$dominant)
+dominant_palette_ordered <- protection_palette[dominant_levels]
 
-# --------------------------------------------------
+# -----------------------------------------------------------------------------
 # Dummy geometry to force legend entry
-# --------------------------------------------------
-
-legend_dummy <- hotspots_majority %>%
+# -----------------------------------------------------------------------------
+legend_dummy_dominant <- hotspots_dominant %>%
   slice(1) %>%
   mutate(
-    majority = factor("Fully", levels = majority_levels)
+    dominant = factor("Fully", levels = dominant_levels)
   )
 
-# --------------------------------------------------
-# Majority map
-# --------------------------------------------------
-
-majority_map <- ggplot() +
+dominant_map <- ggplot() +
   geom_sf(
-    data = hotspots_majority,
-    aes(fill = majority),
+    data = hotspots_dominant,
+    aes(fill = dominant),
     color = NA,
     linewidth = 0.05
   ) +
-  # Invisible on map, visible in legend
   geom_sf(
-    data = legend_dummy,
-    aes(fill = majority),
+    data = legend_dummy_dominant,
+    aes(fill = dominant),
     alpha = 0,
     show.legend = TRUE
   ) +
@@ -355,18 +228,17 @@ majority_map <- ggplot() +
     expand = FALSE
   ) +
   scale_fill_manual(
-    values = majority_palette_ordered,
-    breaks = majority_levels,
-    limits = majority_levels,
+    values = dominant_palette_ordered,
+    breaks = dominant_levels,
+    limits = dominant_levels,
     drop = FALSE,
-    name = "Dominant protection (>=50% of grid cell)",
+    name = "Dominant protection (highest % of grid cell)",
     guide = guide_legend(
-      override.aes = list(alpha = 1)   # force legend fill visible
+      override.aes = list(alpha = 1)
     )
   ) +
   labs(x = "Longitude", y = "Latitude") +
   theme(
-    plot.title = element_blank(),
     panel.grid.major = element_blank(),
     panel.border = element_rect(colour = "black", fill = NA, linewidth = 1),
     panel.background = element_rect(fill = "white"),
@@ -383,7 +255,7 @@ bar_hotspots <- ggplot(
   aes(x = prop, y = protctn, fill = protctn)
 ) +
   geom_bar(stat = "identity", colour = "white", linewidth = 0.4, show.legend = FALSE) +
-  scale_fill_manual(values = majority_palette_ordered, drop = FALSE) +
+  scale_fill_manual(values = protection_palette, drop = FALSE) +
   scale_x_continuous(
     breaks = c(0, 3, 19, 79),
     labels = c("0", "3%", "19%", "79%"),
@@ -406,11 +278,7 @@ bar_hotspots <- ggplot(
     panel.spacing = unit(0, "pt")
   )
 
-# --------------------------------------------------
-# Combine with hotspot bar plot
-# --------------------------------------------------
-
-majority_with_bar <- majority_map + bar_hotspots +
+dominant_with_bar <- dominant_map + bar_hotspots +
   plot_layout(guides = "collect", axis_titles = "collect") &
   theme(
     legend.position = "bottom",
@@ -418,5 +286,12 @@ majority_with_bar <- majority_map + bar_hotspots +
     legend.box = "horizontal",
     legend.margin = margin()
   )
-  
-ggplot2::ggsave(majority_with_bar, filename = "./Figures/Figure_7.png", width = 45, height = 20, units = "cm", dpi = 400)
+
+ggplot2::ggsave(
+  dominant_with_bar,
+  filename = "./Figures/Figure_7.png",
+  width = 45,
+  height = 20,
+  units = "cm",
+  dpi = 400
+)
