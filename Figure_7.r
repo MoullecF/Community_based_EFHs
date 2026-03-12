@@ -176,8 +176,6 @@ dominant_count <- hotspots_dominant %>%
   count(dominant, name = "n_cells") %>%
   mutate(prop_cells = round((n_cells / sum(n_cells)) * 100, 2))
 
-print(dominant_count)
-
 # -----------------------------------------------------------------------------
 # Palette (ALL levels included)
 # -----------------------------------------------------------------------------
@@ -243,7 +241,7 @@ dominant_map <- ggplot() +
     panel.border = element_rect(colour = "black", fill = NA, linewidth = 1),
     panel.background = element_rect(fill = "white"),
     axis.text = element_text(size = 12),
-    legend.title = element_text(size = 14),
+    legend.title = element_text(size = 15),
     legend.text = element_text(size = 12),
     legend.key = element_rect(color = "white"),
     plot.margin = unit(c(0, 0, 0, 0), "pt")
@@ -263,35 +261,38 @@ bar_hotspots <- ggplot(
     expand = c(0, 0)
   ) +
   labs(x = "Proportion of hotspot surface", y = element_blank()) +
-  annotate("text", x = 8.5, y = 5, label = "Fully protected (~0.02%)", size = 11 / .pt) +
-  annotate("text", x = 9.5, y = 4, label = "Highly protected (~0.3%)", size = 11 / .pt) +
-  annotate("text", x = 12, y = 3, label = "Lightly protected (~2.5%)", size = 11 / .pt) +
-  annotate("text", x = 29.5, y = 2, label = "Minimally protected (~18.5%)", size = 11 / .pt) +
-  annotate("text", x = 69, y = 1, label = "Unprotected (~78.7%)", size = 11 / .pt) +
+  annotate("text", x = 14.5, y = 5, label = "Fully protected (~0.02%)", size = 13 / .pt) +
+  annotate("text", x = 15.5, y = 4, label = "Highly protected (~0.3%)", size = 13 / .pt) +
+  annotate("text", x = 18, y = 3, label = "Lightly protected (~2.5%)", size = 13 / .pt) +
+  annotate("text", x = 36, y = 2, label = "Minimally protected (~18.5%)", size = 13 / .pt) +
+  annotate("text", x = 61, y = 1, label = "Unprotected (~78.7%)", size = 13 / .pt) +
   HMSC.theme +
   theme(
     axis.title.x = element_text(face = "plain", size = 14),
     axis.text.x = element_text(face = "plain", size = 12),
-    axis.title.y = element_text(face = "plain", size = 8),
+    axis.title.y = element_blank(),
     axis.text.y = element_blank(),
     plot.margin = unit(c(0, 0, 0, 0), "pt"),
-    panel.spacing = unit(0, "pt")
+    panel.spacing = unit(0, "pt"),
+    aspect.ratio = 1.06
   )
 
-dominant_with_bar <- dominant_map + bar_hotspots +
-  plot_layout(guides = "collect", axis_titles = "collect") &
+dominant_with_bar <- (dominant_map | bar_hotspots) +
+  plot_layout(guides = "collect", widths = c(2,1)) &
   theme(
     legend.position = "bottom",
-    legend.title.position = "top",
     legend.box = "horizontal",
-    legend.margin = margin()
+    legend.title.position = "top",
+    legend.margin = margin(),
+    legend.box.spacing = unit(2, "pt"),
+    plot.margin = unit(c(0, 0, 0, 0), "pt")
   )
 
 ggplot2::ggsave(
   dominant_with_bar,
   filename = "./Figures/Figure_7.png",
-  width = 45,
-  height = 20,
+  width = 20,
+  height = 15,
   units = "cm",
   dpi = 400
 )
