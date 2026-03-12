@@ -93,14 +93,14 @@ plot_vp <- function(vp, vp_summary, title, y_label) {
       data = vp_summary$by_onto[vp_summary$by_onto$Onto == "adult", ],
       aes(label = paste0(round(Mean, 2), "±", round(SD, 2)), y = -0.05, x = c(1:7)),
       color = "#E69F00",
-      size = 4,
+      size = 2.75,
       fontface = "bold"
     ) +
     geom_text(
       data = vp_summary$by_onto[vp_summary$by_onto$Onto == "juvenile", ],
       aes(label = paste0(round(Mean, 2), "±", round(SD, 2)), y = -0.08, x = c(1:7)),
       color = "#56B4E9",
-      size = 4,
+      size = 2.75,
       fontface = "bold"
     ) +
     scale_color_manual(values = cols) +
@@ -111,12 +111,12 @@ plot_vp <- function(vp, vp_summary, title, y_label) {
     scale_x_discrete(expand = expansion(mult = c(0.06, 0.12))) +
     ggtitle(title) +
     theme(
-      axis.title.y = element_text(size = 16),
-      axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 14),
-      axis.text.y = element_text(size = 14),
+      axis.title.y = element_text(size = 12),
+      axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1, size = 10),
+      axis.text.y = element_text(size = 10),
       legend.title = element_text(size = 12),
-      legend.text = element_text(size = 11),
-      plot.title = element_text(size = 16)
+      legend.text = element_text(size = 10),
+      plot.title = element_text(size = 12)
     )
 }
 
@@ -144,11 +144,18 @@ gg.VP.Mabu <- plot_vp(
   vpSummary.Mabu,
   title = "Abundance conditional on presence (ABU)",
   y_label = ""
-)
+) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y = element_blank(),
+  )
 
 # -----------------------------------------------------------------------------
 # Combine plots
 # -----------------------------------------------------------------------------
 gg.VP <- gg.VP.Mpa + gg.VP.Mabu + plot_layout(guides = "collect", widths = c(1, 1))
 
-# ggplot2::ggsave(gg.VP, filename = "./Figures/Figure1.png", width = 50, height = 18, units = "cm", dpi = 400)
+# -----------------------------------------------------------------------------
+# Save plot
+# -----------------------------------------------------------------------------
+ggplot2::ggsave(gg.VP, filename = "./Figures/Figure1.png", width = 30, height = 15, units = "cm", dpi = 400)
