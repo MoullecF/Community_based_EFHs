@@ -258,7 +258,7 @@ bar_hotspots <- ggplot(
     breaks = c(0, 3, 19, 79),
     labels = c("0", "3%", "19%", "79%"),
     limits = c(0, 80),
-    expand = c(0, 0)
+    expand = expansion(mult = c(0, 0.02))
   ) +
   labs(x = "Proportion of hotspot surface", y = element_blank()) +
   annotate("text", x = 14.5, y = 5, label = "Fully protected (~0.02%)", size = 13 / .pt) +
@@ -291,8 +291,8 @@ dominant_with_bar <- (dominant_map | bar_hotspots) +
 ggplot2::ggsave(
   dominant_with_bar,
   filename = "./Figures/Figure_7.png",
-  width = 20,
-  height = 15,
+  width = 45,
+  height = 18,
   units = "cm",
   dpi = 400
 )
