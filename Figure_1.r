@@ -126,6 +126,13 @@ plot_vp <- function(vp, vp_summary, title, y_label) {
 VP.Mpa <- compute_vp(Mpa, group, groupnames, variable_labels)
 VP.Mabu <- compute_vp(Mabu, group, groupnames, variable_labels)
 
+VP.all <- rbind(
+  cbind(VP.Mpa,  Model = "Presence-Absence"),
+  cbind(VP.Mabu, Model = "Abundance")
+)
+
+# write.csv(VP.all, "./Outputs/VP_all.csv", row.names = FALSE)
+
 vpSummary.Mpa <- summarize_vp(VP.Mpa)
 vpSummary.Mabu <- summarize_vp(VP.Mabu)
 
