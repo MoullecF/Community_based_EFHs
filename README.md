@@ -1,7 +1,7 @@
-# Congruent life stage hotspots identify community-based essential fish habitats and conservation gaps 
+# Congruent life stage hotspots identify essential fish habitats to fill biodiversity conservation gaps 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Data: CC BY 4.0](https://img.shields.io/badge/Data%20License-CC%20BY%204.0-brightgreen.svg)](https://creativecommons.org/licenses/by/4.0/)
 
-Open-science code and data to model, map, and analyze community-based Essential Fish Habitats (EFHs) across the Western Mediterranean Sea using hierarchical joint species distribution models (HMSC) and hurdle models, followed by spatio-temporal prediction, hotspot analysis, and MPA coverage assessment.
+Open-science code and data to model, map, and analyze biodiversity-based Essential Fish Habitats (EFHs) across the Western Mediterranean Sea using hierarchical joint species distribution models (HMSC) and hurdle models, followed by spatio-temporal prediction, hotspot analysis, and MPA coverage assessment.
 
 All figures can be regenerated directly from the provided outputs (once the hurdle stack is downloaded from Zenodo), without rerunning scripts 1–5.
 
@@ -93,7 +93,7 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
 ## Citation ![cite](https://img.shields.io/badge/-cite-4e342e?style=flat-square)
 If you use this code or data, please cite:
 - **Dataset**: Moullec, F. (2026). *Community-based Essential Fish Habitats in Mediterranean Sea* (Version V1.0.0). Zenodo. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167)
-- **Code**: This GitHub repository (MoullecF/Community_based_EFHs, main branch).
+- **Code**: This GitHub repository (MoullecF/Biodiversity_based_EFHs, main branch).
 - **Associated publication**: XXXXXXXX.
 
 ## License ![license](https://img.shields.io/badge/-license-263238?style=flat-square)
