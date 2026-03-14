@@ -63,6 +63,27 @@ sen_pvalue_juvenile <- calc_sen_stat(juvenile_stack, stat = "pvalue")
 sen_slope_adult <- calc_sen_stat(adult_stack, stat = "slope")
 sen_pvalue_adult <- calc_sen_stat(adult_stack, stat = "pvalue")
 
+create_non_significant_mask <- function(pvalue_raster, threshold = 0.05) {
+  # Build polygon mask of cells with non-significant MK p-values
+  non_sig_raster <- pvalue_raster > threshold
+  non_sig_raster[non_sig_raster == 0] <- NA
+
+  if (all(is.na(values(non_sig_raster)))) {
+    return(NULL)
+  }
+
+  non_sig_poly <- rasterToPolygons(
+    non_sig_raster,
+    fun = function(x) !is.na(x),
+    dissolve = TRUE
+  )
+
+  sf::st_as_sf(non_sig_poly)
+}
+
+non_sig_mask_juvenile <- create_non_significant_mask(sen_pvalue_juvenile)
+non_sig_mask_adult <- create_non_significant_mask(sen_pvalue_adult)
+
 # Convert raster outputs to data frames for plotting
 slope_df_juvenile <- as.data.frame(sen_slope_juvenile, xy = TRUE, na.rm = FALSE)
 pvalue_df_juvenile <- as.data.frame(sen_pvalue_juvenile, xy = TRUE, na.rm = FALSE)
@@ -70,11 +91,11 @@ slope_df_adult <- as.data.frame(sen_slope_adult, xy = TRUE, na.rm = FALSE)
 pvalue_df_adult <- as.data.frame(sen_pvalue_adult, xy = TRUE, na.rm = FALSE)
 
 # -----------------------------------------------------------------------------
-# Exploratory summaries (kept for continuity with existing workflow)
+# Exploratory summaries
 # -----------------------------------------------------------------------------
 
 range(slope_df_juvenile[pvalue_df_juvenile$layer < 0.05, "layer"], na.rm = TRUE)
-hist(slope_df_juvenile[pvalue_df_juvenile$layer < 0.05, "layer"], breaks = 10)
+# hist(slope_df_juvenile[pvalue_df_juvenile$layer < 0.05, "layer"], breaks = 10)
 round(
   quantile(
     slope_df_juvenile[pvalue_df_juvenile$layer < 0.05, "layer"],
@@ -86,7 +107,7 @@ round(
 round(quantile(slope_df_juvenile$layer, probs = seq(0, 1, 0.1), na.rm = TRUE), 2)
 
 range(slope_df_adult[pvalue_df_adult$layer < 0.05, "layer"], na.rm = TRUE)
-hist(slope_df_adult[pvalue_df_adult$layer < 0.05, "layer"], breaks = 100)
+#hist(slope_df_adult[pvalue_df_adult$layer < 0.05, "layer"], breaks = 100)
 quantile(
   slope_df_adult[pvalue_df_adult$layer < 0.05, "layer"],
   probs = seq(0, 1, 0.1),
@@ -154,25 +175,34 @@ col_vec_adult <- c(rev(col_neg_adult), col_pos_adult)
 # Plotting
 # -----------------------------------------------------------------------------
 
-plot_trend_map <- function(slope_df, pvalue_df, color_values, stage_label) {
-  # Use transparency and point overlay to indicate non-significant trends.
-  ggplot() +
+plot_trend_map <- function(slope_df, non_sig_mask, color_values, stage_label) {
+  # Overlay a hatch mask polygon on non-significant areas.
+  trend_plot <- ggplot() +
     geom_tile(
-      data = slope_df[pvalue_df$layer < 0.05, ],
+      data = slope_df,
       aes(x = x, y = y, fill = value_binned)
-    ) +
-    geom_tile(
-      data = slope_df[pvalue_df$layer > 0.05, ],
-      aes(x = x, y = y, fill = value_binned),
-      alpha = 0.25
-    ) +
-    geom_point(
-      data = pvalue_df[pvalue_df$layer > 0.05, ],
-      aes(x = x, y = y),
-      shape = 20,
-      size = 0.0001,
-      alpha = 1 / 5
-    ) +
+    )
+
+  if (!is.null(non_sig_mask) && nrow(non_sig_mask) > 0) {
+    trend_plot <- trend_plot +
+      ggpattern::geom_sf_pattern(
+        data = non_sig_mask,
+        inherit.aes = FALSE,
+        fill = NA,
+        colour = NA,
+        pattern = "stripe",
+        pattern_angle = 45,
+        pattern_spacing = 0.005,
+        pattern_density = 0.25,
+        pattern_fill = "black",
+        pattern_colour = "black",
+        pattern_size = 0.1,
+        pattern_alpha = 0.35,
+        show.legend = FALSE
+      )
+  }
+
+  trend_plot +
     geom_sf(data = world, fill = "grey90", color = "grey20") +
     annotate("text", x = -3.4, y = 44, label = stage_label, fontface = "bold") +
     coord_sf(
@@ -183,7 +213,8 @@ plot_trend_map <- function(slope_df, pvalue_df, color_values, stage_label) {
     labs(fill = "Sen's slope (ind/km²/year)", x = "Longitude", y = "Latitude") +
     scale_fill_manual(
       values = color_values,
-      na.value = "grey50",
+      na.value = NA,
+      na.translate = FALSE,
       limits = levels(slope_df$value_binned),
       guide = guide_legend(
         title.position = "top",
@@ -208,18 +239,24 @@ plot_trend_map <- function(slope_df, pvalue_df, color_values, stage_label) {
     )
 }
 
-# Black dots indicate non-significant slopes at the 95% level (Mann-Kendall test).
-juvenile_plot <- plot_trend_map(slope_df_juvenile, pvalue_df_juvenile, col_vec_juvenile, "Juveniles")
-adult_plot <- plot_trend_map(slope_df_adult, pvalue_df_adult, col_vec_adult, "Adults")
+# Hatched cells indicate non-significant slopes at the 95% level
+juvenile_plot <- plot_trend_map(slope_df_juvenile, non_sig_mask_juvenile, col_vec_juvenile, "Juveniles")
+adult_plot <- plot_trend_map(slope_df_adult, non_sig_mask_adult, col_vec_adult, "Adults")
 combined_plot <- (juvenile_plot + adult_plot) +
   plot_layout(ncol = 1) +
   plot_annotation(tag_levels = "A")
 
+output_file <- "./Figures/Figure_2.png"
+
 ggplot2::ggsave(
-  combined_plot,
-  filename = "./Figures/Figure_2.png",
+  filename = output_file,
+  plot = combined_plot,
   width = 20,
   height = 30,
   units = "cm",
   dpi = 400
 )
+
+#if (.Platform$OS.type == "windows") {
+#  shell.exec(normalizePath(output_file))
+#}
