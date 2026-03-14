@@ -6,7 +6,7 @@ required_packages <- c(
   "reshape2", "ggplot2", "gridExtra", "grid", "cowplot", "viridis", "ggsci",
   "ggnewscale", "ggthemes", "patchwork", "gtable", "PupillometryR",
   "Routliers", "trend", "RColorBrewer", "ggtext", "sfdep", "spdep", "rnaturalearth",
-  "rnaturalearthdata", "forcats", "zenodor"
+  "rnaturalearthdata", "forcats", "ggpattern", "zenodor"
 )
 
 to_install <- setdiff(required_packages, rownames(installed.packages()))
