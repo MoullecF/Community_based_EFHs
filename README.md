@@ -27,8 +27,8 @@ All figures can be regenerated directly from the provided outputs (once the hurd
 - **Hurdle prediction stack**: Spatio-temporal raster stack available on Zenodo [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167). Use [download_zenodo_spatiotemporal.R](download_zenodo_spatiotemporal.R) to place `r_stack_Hurdle_0.05_0_1000_19992021.Rdata` into [Outputs/Spatio_temporal_prediction/](Outputs/Spatio_temporal_prediction); download this file before running scripts that depend on the hurdle stack (e.g., [6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r), [Figure_2.r](Figure_2.r), [Figure_3_4.r](Figure_3_4.r), [Figure_5_6.r](Figure_5_6.r)).
 
 ## Outputs ![outputs](https://img.shields.io/badge/-outputs-5d4037?style=flat-square)
-- Posterior samples and means for presence/absence and abundance: [Outputs/Presence_Absence_posteriors/](Outputs/Presence_Absence_posteriors), [Outputs/Abundance_posteriors/](Outputs/Abundance_posteriors), [Outputs/Presence_Absence_mean_posterior/](Outputs/Presence_Absence_mean_posterior), [Outputs/Abundance_mean_posterior/](Outputs/Abundance_mean_posterior). Full posterior outputs are several hundred GB and not hosted on Zenodo; they can be requested from fabien.moullec@umontpellier.fr.
-- Hurdle predictions (combined): [Outputs/Hurdle_prediction/](Outputs/Hurdle_prediction). These combined hurdle outputs are large and not mirrored on Zenodo; contact fabien.moullec@umontpellier.fr if you need access.
+- Posterior samples and means for presence/absence and abundance: [Outputs/Presence_Absence_posteriors/](Outputs/Presence_Absence_posteriors), [Outputs/Abundance_posteriors/](Outputs/Abundance_posteriors), [Outputs/Presence_Absence_mean_posterior/](Outputs/Presence_Absence_mean_posterior), [Outputs/Abundance_mean_posterior/](Outputs/Abundance_mean_posterior). Full posterior outputs are several hundred GB and not hosted on Zenodo; they can be requested from [AUTHOR_NAME].
+- Hurdle predictions (combined): [Outputs/Hurdle_prediction/](Outputs/Hurdle_prediction). These combined hurdle outputs are large and not mirrored on Zenodo; contact [AUTHOR_NAME] if you need access.
 - Spatio-temporal hurdle stack: [Outputs/Spatio_temporal_prediction/](Outputs/Spatio_temporal_prediction). Source data are hosted on Zenodo (see the hurdle prediction stack entry above).
 - EHSA results: [Outputs/EHSA/](Outputs/EHSA).
 - Figures and supplementary plots: [Figures/](Figures).
@@ -92,8 +92,8 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
 
 ## Citation ![cite](https://img.shields.io/badge/-cite-4e342e?style=flat-square)
 If you use this code or data, please cite:
-- **Dataset**: Moullec, F. (2026). *Community-based Essential Fish Habitats in Mediterranean Sea* (Version V1.0.0). Zenodo. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167)
-- **Code**: This GitHub repository (MoullecF/Biodiversity_based_EFHs, main branch).
+- **Dataset**: [AUTHOR_NAME] (2026). *Community-based Essential Fish Habitats in Mediterranean Sea* (Version V1.0.0). Zenodo. [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167)
+- **Code**: This GitHub repository (XXXXX/Biodiversity_based_EFHs, main branch).
 - **Associated publication**: XXXXXXXX.
 
 ## License ![license](https://img.shields.io/badge/-license-263238?style=flat-square)
