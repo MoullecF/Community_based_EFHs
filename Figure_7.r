@@ -20,6 +20,41 @@ mpa_polygons <- st_read("./Inputs_HMSC/protectionPLactivities_niv1&2&3&4/protect
 # Fix any invalid geometries (self-intersections, etc.).
 mpa_polygons <- st_make_valid(mpa_polygons)
 
+# Recode numeric protection codes to labelled factor matching the palette names
+mpa_polygons <- mpa_polygons %>%
+  mutate(protctn = factor(
+      protctn,
+      levels = c(1, 2, 3, 4),
+      labels = c("Minimally", "Lightly", "Highly", "Fully")))
+
+# Define color palette for protection levels
+protection_palette <- c(
+  "Minimally"   = "#fde725",
+  "Lightly"     = "#5ec962",
+  "Highly"      = "#21918c",
+  "Fully"       = "#440154"
+)
+
+# Plot MPAs with protection levels
+map_MPA <- ggplot() +
+   geom_sf(data = st_transform(mpa_polygons, st_crs(world)), aes(fill = protctn), color = NA) +
+  geom_sf(data = world, fill = "grey90", color = "grey20") +
+  coord_sf(xlim = c(-6, 16.5), ylim = c(35, 45.5), expand = FALSE ) +
+  scale_fill_manual(values = protection_palette, drop = FALSE) +
+  labs(x = "Longitude", y = "Latitude") +
+  guides(fill = guide_legend(title = "Protection\nlevel")) +
+  theme(
+        panel.grid.major = element_blank(),
+        panel.border = element_rect(colour = "black", fill = NA, linewidth = 1),
+        panel.background = element_rect(fill = "white"),
+        axis.text = element_text(size = 12),
+        legend.title = element_text(size = 15),
+        legend.text = element_text(size = 12),
+        legend.key = element_rect(color = "white"),
+        plot.margin = unit(c(0, 0, 0, 0), "pt"))
+
+# ggsave(map_MPA, filename = "./Figures/Map_MPA_protection_levels.png", width = 20, height = 20, units = "cm", dpi = 400)
+
 # Combined hotspot and coldspot EHSA outputs.
 df_spots <- readRDS("./Outputs/EHSA/Combined_HS_CS.RDS")
 
