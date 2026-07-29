@@ -166,3 +166,4 @@ gg.VP <- gg.VP.Mpa + gg.VP.Mabu + plot_layout(guides = "collect", widths = c(1, 
 # Save plot
 # -----------------------------------------------------------------------------
 ggplot2::ggsave(gg.VP, filename = "./Figures/Figure1.png", width = 30, height = 15, units = "cm", dpi = 400)
+# Figure caption : 
