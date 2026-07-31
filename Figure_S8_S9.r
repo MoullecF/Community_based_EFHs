@@ -198,3 +198,25 @@ ggplot2::ggsave(
   units = "cm",
   dpi = 400
 )
+
+# Proportion of species with positive, negative, or non-significant responses to a given covariate
+summarise_response <- function(df, model_label, variable) {
+  df %>%
+    filter(Environment == variable) %>%
+    count(pos_neg) %>%
+    mutate(
+      response = recode(
+        as.character(pos_neg),
+        "1" = "Positive",
+        "0" = "Non-significant",
+        "-1" = "Negative"
+      ),
+      percent = round(100 * n / sum(n), 1),
+      model = model_label
+    ) %>%
+    dplyr::select(model, response, n, percent)
+}
+
+response_summary <- bind_rows(summarise_response(beta_pa, "Presence-absence", "Gravity"),
+  summarise_response(beta_ab, "Abundance", "Gravity"))
+
