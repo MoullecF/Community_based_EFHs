@@ -166,3 +166,139 @@ gg.VP <- gg.VP.Mpa + gg.VP.Mabu + plot_layout(guides = "collect", widths = c(1, 
 # Save plot
 # -----------------------------------------------------------------------------
 ggplot2::ggsave(gg.VP, filename = "./Figures/Figure1.png", width = 30, height = 15, units = "cm", dpi = 400)
+
+# -----------------------------------------------------------------------------
+# Compare juvenile and adult β estimates for species with both life stages
+# -----------------------------------------------------------------------------
+library(tibble)
+
+### Extract β posterior estimates and keep species with both stages
+# Extract posterior estimates
+postBeta.mpa <- getPostEstimate(Mpa, parName = "Beta")
+postBeta.mabu <- getPostEstimate(Mabu, parName = "Beta")
+
+# Posterior mean
+beta.mpa <- postBeta.mpa$mean
+beta.mabu <- postBeta.mabu$mean
+
+# Add names
+rownames(beta.mpa) <- colnames(Mpa$X)
+colnames(beta.mpa) <- colnames(postBeta.mpa$mean)
+rownames(beta.mabu) <- colnames(Mabu$X)
+colnames(beta.mabu) <- colnames(postBeta.mabu$mean)
+
+# Keep only significant beta estimates
+support_level <- 0.95
+beta_sig_mpa <- beta.mpa
+beta_sig_mabu <- beta.mabu
+beta_sig_mpa[postBeta.mpa$support < support_level & postBeta.mpa$supportNeg < support_level] <- NA
+beta_sig_mabu[postBeta.mabu$support < support_level & postBeta.mabu$supportNeg < support_level] <- NA
+
+# Species and life stage extraction
+species <- substr(colnames(beta_sig_mpa), 1, 7)
+stage <- sub(".*_", "", colnames(beta_sig_mpa))
+
+# Species with both juvenile and adult
+species_both <- names(which(tapply(stage, species, function(x) all(c("juvenile","adult") %in% x))))
+
+# Keep only species with both stages
+beta_both_mpa <- beta_sig_mpa[, species %in% species_both]
+beta_both_mabu <- beta_sig_mabu[, species %in% species_both]
+
+### Convert β matrices into long format
+beta_long_mpa <- beta_both_mpa %>%
+  as.data.frame() %>%
+  rownames_to_column("environment") %>%
+  pivot_longer(cols = -environment,
+    names_to = "species_stage",
+    values_to = "beta") %>%
+  mutate(species = substr(species_stage,1,7),
+    stage = sub(".*_", "", species_stage))
+
+beta_long_mabu <- beta_both_mabu %>%
+  as.data.frame() %>%
+  rownames_to_column("environment") %>%
+  pivot_longer(cols = -environment,
+    names_to = "species_stage",
+    values_to = "beta") %>%
+  mutate(species = substr(species_stage,1,7),
+    stage = sub(".*_", "", species_stage))
+
+### Pair juvenile and adult β values
+beta_pair_mpa <- beta_long_mpa %>%
+  dplyr::select(environment, species, stage, beta) %>%
+  pivot_wider(names_from = stage,
+    values_from = beta) %>%
+  filter(!is.na(juvenile),
+    !is.na(adult)) %>%
+  mutate(beta_difference = adult - juvenile,
+    same_direction = sign(adult)==sign(juvenile))
+
+beta_pair_mabu <- beta_long_mabu %>%
+  dplyr::select(environment, species, stage, beta) %>%
+  pivot_wider(names_from = stage,
+    values_from = beta) %>%
+  filter(!is.na(juvenile),
+    !is.na(adult)) %>%
+  mutate(beta_difference = adult - juvenile,
+    same_direction = sign(adult)==sign(juvenile))
+
+# Proportion of species with opposite responses
+View(beta_pair_mpa %>%
+  group_by(environment) %>%
+  summarise(n_species = n(),
+    proportion_same_sign = mean(same_direction) * 100,
+    proportion_opposite_sign = mean(!same_direction) * 100))
+
+View(beta_pair_mabu %>%
+  group_by(environment) %>%
+  summarise(n_species = n(),
+    proportion_same_sign = mean(same_direction) * 100,
+    proportion_opposite_sign = mean(!same_direction) * 100))
+
+### Correlation between juvenile and adult β parameters
+beta_correlation_mpa <- beta_pair_mpa %>%
+  group_by(environment) %>%
+  summarise(n_species = n(),
+    Pearson_r = round(cor(juvenile, adult, method="pearson"), 2))
+
+beta_correlation_mabu <- beta_pair_mabu %>%
+  group_by(environment) %>%
+  summarise(n_species = n(),
+    Pearson_r = round(cor(juvenile, adult, method="pearson"), 2))
+
+### Rank predictors by magnitude of ontogenic difference
+beta_shift_mpa <- beta_pair_mpa %>%
+  group_by(environment) %>%
+  summarise(mean_absolute_difference = round(mean(abs(beta_difference)), 2), median_absolute_difference = round(median(abs(beta_difference)), 2)) %>%
+  arrange(desc(mean_absolute_difference))
+
+beta_shift_mabu <- beta_pair_mabu %>%
+  group_by(environment) %>%
+  summarise(mean_absolute_difference = mean(abs(beta_difference)), median_absolute_difference = round(median(abs(beta_difference)), 2)) %>%
+  arrange(desc(mean_absolute_difference))
+
+### Plot juvenile vs adult β estimates
+# remove intercept from the plot
+beta_pair_mpa <- beta_pair_mpa %>% filter(environment != "(Intercept)")
+beta_pair_mabu <- beta_pair_mabu %>% filter(environment != "(Intercept)")
+
+beta_plot_mpa <- ggplot(beta_pair_mpa, aes(x=juvenile, y=adult)) +
+  geom_point(alpha=0.6) +
+  geom_abline(slope=1, intercept=0, linetype="dashed") +
+  facet_wrap(~environment, scales="free") +
+  theme_bw()+
+  labs(x="Juvenile β estimate", y="Adult β estimate", tag = "A") +
+  theme(plot.tag = element_text(size = 12, face = "bold"))
+
+beta_plot_mabu <- ggplot(beta_pair_mabu, aes(x=juvenile, y=adult)) +
+  geom_point(alpha=0.6) +
+  geom_abline(slope=1, intercept=0, linetype="dashed") +
+  facet_wrap(~environment, scales="free") +
+  theme_bw()+
+  labs(x="Juvenile β estimate", y="Adult β estimate", tag = "B") +
+  theme(plot.tag = element_text(size = 12, face = "bold"))
+
+### Save plots
+figure_beta_comp <- beta_plot_mpa / beta_plot_mabu
+ggplot2::ggsave(figure_beta_comp, filename = "./Figures/Beta_juvenile_vs_adult.png", width = 30, height = 30, units = "cm", dpi = 400)
