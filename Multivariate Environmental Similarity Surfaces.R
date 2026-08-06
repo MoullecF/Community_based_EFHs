@@ -63,19 +63,12 @@ for(i in seq_along(years)){
 # Final table
 mess_Mpa <- bind_rows(mess_list_Mpa)
 
-round(mean(mess_Mpa$MESS.TOTAL, na.rm = TRUE), 2)
-round(sd(mess_Mpa$MESS.TOTAL, na.rm = TRUE), 2)
-round(median(mess_Mpa$MESS.TOTAL, na.rm = TRUE), 2)
-round(quantile(mess_Mpa$MESS.TOTAL, probs = c(0.05, 0.25, 0.75, 0.95), na.rm = TRUE), 2)
-
 # Mean MESS values across years
 mean_mess_Mpa <- mess_Mpa %>%
   group_by(X, Y) %>%
   summarise(mean_TOTAL = mean(MESS.TOTAL, na.rm = TRUE),
             sd_TOTAL = sd(MESS.TOTAL, na.rm = TRUE),
             median_TOTAL = median(MESS.TOTAL, na.rm = TRUE))
-
-range(mean_mess_Mpa$median_TOTAL)
 
 # Variables driving extrapolation
 mess_Mpa %>%
@@ -94,8 +87,6 @@ tab_mess_Mpa <- mess_Mpa %>%
     median_MESS = median(MESS.TOTAL, na.rm = TRUE),
     pct_extrapolation = 100 * mean(MESS.TOTAL < 0, na.rm = TRUE),
     min_MESS = min(MESS.TOTAL, na.rm = TRUE))
-
-range(tab_mess_Mpa$pct_extrapolation)
 
 # Plot the mean MESS values
 world <- rnaturalearth::ne_countries(scale = "large", returnclass = "sf")
@@ -145,7 +136,6 @@ median_MESS_map <- ggplot(data = world) +
         legend.title = element_text(size = 12), legend.position = "right")
 
 # ggplot2::ggsave(median_MESS_map, filename = "./Figures/Median_MESS_map.png", width = 20, height = 15, units = "cm", dpi = 400)
-# Figure caption: Median MESS values across years (1999–2021) for the Western Mediterranean Sea. Blue colors indicate areas of extrapolation (MESS < 0), while red colors indicate areas of interpolation (MESS > 0).
 
 # ggplot environmental variables responsible for dissimilarity
 ggplot(data = mess_Mpa, aes(x = MESS.MoD, y = MESS.TOTAL)) +
