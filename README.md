@@ -19,6 +19,7 @@ All figures can be regenerated directly from the provided outputs (once the hurd
 6. **Hurdle outputs**: Combine presence/absence and abundance to produce hurdle predictions and derived rasters ([5-Hurdle model predictions.r](5-Hurdle%20model%20predictions.r)).
 7. **Hotspot analysis**: Emerging Hotspot Analysis (EHSA) and visualization scripts ([6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r), [Figure_3_4.r](Figure_3_4.r), [Figure_5_6.r](Figure_5_6.r)).
 8. **MPA coverage**: Quantify overlap of hotspot classes with marine protected areas ([Figure_7.r](Figure_7.r)).
+9. **Trend/hotspot cross-tabulation**: Cross-tabulate EHSA classes (hotspot/coldspot/no pattern) against Sen's slope trend significance of hurdle-model abundance, by life stage ([Figure_S_EHSA_Sen_slope_crosstab.r](Figure_S_EHSA_Sen_slope_crosstab.r)).
 
 ## Inputs and Data ![data](https://img.shields.io/badge/-data-283593?style=flat-square)
 - **Primary inputs**: RData objects and spatial layers in [Inputs_HMSC/](Inputs_HMSC).
@@ -87,7 +88,7 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
 - [Multivariate Environmental Similarity Surfaces.R](Multivariate%20Environmental%20Similarity%20Surfaces.R): MESS extrapolation diagnostics.
 - [5-Hurdle model predictions.r](5-Hurdle%20model%20predictions.r): Combine components into hurdle outputs.
 - [6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r): Emerging Hotspot Analysis workflow.
-- Figure-generation scripts: all [Figure_*.r](Figure_1.r) scripts in the repository root (including main and supplementary figures; e.g., [Figure_7.r](Figure_7.r), [Figure_S8_S9.r](Figure_S8_S9.r)).
+- Figure-generation scripts: all [Figure_*.r](Figure_1.r) scripts in the repository root (including main and supplementary figures; e.g., [Figure_7.r](Figure_7.r), [Figure_S8_S9.r](Figure_S8_S9.r), [Figure_S_EHSA_Sen_slope_crosstab.r](Figure_S_EHSA_Sen_slope_crosstab.r)).
 - [:file\_folder: **Inputs_HMSC**](Inputs_HMSC/): Input data and spatial layers.
 - [:file\_folder: **Models**](Models/): Fitted model objects and initialization files.
 - [:file\_folder: **Outputs**](Outputs/): Generated predictions, EHSA results, and hurdle outputs (git-ignored intermediates where appropriate).
