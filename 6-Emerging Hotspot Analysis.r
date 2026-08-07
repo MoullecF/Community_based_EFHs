@@ -15,25 +15,23 @@ source("./0-Load libraries.R")
 # Inputs
 # -----------------------------------------------------------------------------
 
-# Set to c("adult") for a single run, or c("juvenile", "adult") for both.
+# Set to c("adult") for a single run, or c("juvenile", "adult") for both
 stages_to_run <- c("adult")
 
 # Load raster stack of hurdle-model outputs
-raster_stack <- get(
-  load("./Outputs/Spatio_temporal_prediction/r_stack_Hurdle_0.05_0_1000_19992021.Rdata")
-)
+raster_stack <- get(load("./Outputs/Spatio_temporal_prediction/r_stack_Hurdle_0.05_0_1000_19992021.Rdata"))
 
 # -----------------------------------------------------------------------------
 # Helpers
 # -----------------------------------------------------------------------------
 
 build_yearly_sf <- function(stage_stack) {
-  # Summarize all species layers to yearly abundance per pixel.
+  # Convert raster stack to sf object with yearly summed abundance and remove empty polygons
   sf_raster <- st_as_sf(rasterToPolygons(stage_stack, dissolve = FALSE))
   layer_names <- setdiff(names(sf_raster), "geometry")
   years <- sub(".*_(\\d{4})", "\\1", layer_names)
   unique_years <- unique(years)
-
+  # For each year, sum the abundance across all layers for that year and create a new sf object
   summed_list <- lapply(unique_years, function(year) {
     year_layers <- grep(paste0("_", year, "$"), layer_names, value = TRUE)
     year_stack <- sf_raster[, colnames(sf_raster) %in% year_layers]
@@ -47,7 +45,7 @@ build_yearly_sf <- function(stage_stack) {
     summed_ab$tot_ab[summed_ab$tot_ab > outliers_raster$limits[2]] <- outliers_raster$limits[2]
 
     summed_ab$Year <- as.integer(year)
-
+    # Remove polygons with no neighbors to avoid issues in EHSA
     list_nb <- poly2nb(summed_ab, queen = TRUE)
     empty_nb <- which(card(list_nb) == 0)
     if (length(empty_nb) > 0) {
@@ -61,32 +59,24 @@ build_yearly_sf <- function(stage_stack) {
   do.call(rbind, summed_list)
 }
 
+# Convert sf object to spacetime object
 run_ehsa <- function(stage_name, raster_stack) {
-  # Run EHSA for a single life stage and return results.
-  stage_stack <- raster::subset(
-    raster_stack,
-    grep(stage_name, names(raster_stack), value = TRUE)
-  )
+  # Run EHSA for a single life stage and return results
+  stage_stack <- raster::subset(raster_stack, grep(stage_name, names(raster_stack), value = TRUE))
 
   summed_sf <- build_yearly_sf(stage_stack)
   spt <- as_spacetime(summed_sf, .loc_col = "pixel_id", .time_col = "Year")
   dplyr::count(spt, Year, pixel_id)
   is_spacetime_cube(spt)
 
-  emerging_hotspot_analysis(
-    x = spt,
-    .var = "tot_ab",
-    threshold = 0.1,
-    include_gi = TRUE,
-    nsim = 199
-  )
+  emerging_hotspot_analysis(x = spt, .var = "tot_ab", threshold = 0.1, include_gi = TRUE, nsim = 199)
 }
 
 # -----------------------------------------------------------------------------
 # Run EHSA per life stage
 # -----------------------------------------------------------------------------
 
-# Note: EHSA runs can take a long time (several hours!) depending on grid size and years.
+# Note: EHSA runs can take a long time (several hours!)
 for (stage in stages_to_run) {
   ehsa <- run_ehsa(stage, raster_stack)
   output_path <- paste0("./Outputs/EHSA/ehsa_", stage, ".rds")
