@@ -1,7 +1,7 @@
 # Congruent life stage hotspots identify essential fish habitats to fill biodiversity conservation gaps 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18632167.svg)](https://doi.org/10.5281/zenodo.18632167) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) [![Data: CC BY 4.0](https://img.shields.io/badge/Data%20License-CC%20BY%204.0-brightgreen.svg)](https://creativecommons.org/licenses/by/4.0/)
 
-Open-science code and data to model, map, and analyze biodiversity-based Essential Fish Habitats (EFHs) across the Western Mediterranean Sea using hierarchical joint species distribution models (HMSC) and hurdle models, followed by spatio-temporal prediction, hotspot analysis, and MPA coverage assessment.
+Open-science code and data to model, map, and analyze biodiversity-based Essential Fish Habitats (EFHs) across the Western Mediterranean Sea using hierarchical joint species distribution models (HMSC) and hurdle models, followed by spatio-temporal prediction, hotspot analysis and MPA coverage assessment.
 
 All figures can be regenerated directly from the provided outputs (once the hurdle stack is downloaded from Zenodo), without rerunning scripts 1–5.
 
@@ -15,9 +15,10 @@ All figures can be regenerated directly from the provided outputs (once the hurd
 2. **Model fitting**: Fit presence/absence and abundance models (supports HPC workflows) ([2_1-Fit presence absence model.r](2_1-Fit%20presence%20absence%20model.r), [2_2-Fit abundance model.r](2_2-Fit%20abundance%20model.r)); Slurm job scripts for cluster runs are available in [Models/](Models).
 3. **Diagnostics**: Assess convergence, effective sample sizes, and PSRF ([3-Models convergence and fit.r](3-Models%20convergence%20and%20fit.r)).
 4. **Spatial predictions**: Generate posterior samples and means over the spatial grid ([4-Spatial predictions with fitted HMSC.r](4-Spatial%20predictions%20with%20fitted%20HMSC.r)).
-5. **Hurdle outputs**: Combine presence/absence and abundance to produce hurdle predictions and derived rasters ([5-Hurdle model predictions.r](5-Hurdle%20model%20predictions.r)).
-6. **Hotspot analysis**: Emerging Hotspot Analysis (EHSA) and visualization scripts ([6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r), [Figure_3_4.r](Figure_3_4.r), [Figure_5_6.r](Figure_5_6.r)).
-7. **MPA coverage**: Quantify overlap of hotspot classes with marine protected areas ([Figure_7.r](Figure_7.r)).
+5. **Extrapolation assessment**: Compute Multivariate Environmental Similarity Surfaces (MESS) to identify where spatial predictions extrapolate beyond the environmental/anthropogenic conditions used to fit both HMSC models ([Multivariate Environmental Similarity Surfaces.R](Multivariate%20Environmental%20Similarity%20Surfaces.R)).
+6. **Hurdle outputs**: Combine presence/absence and abundance to produce hurdle predictions and derived rasters ([5-Hurdle model predictions.r](5-Hurdle%20model%20predictions.r)).
+7. **Hotspot analysis**: Emerging Hotspot Analysis (EHSA) and visualization scripts ([6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r), [Figure_3_4.r](Figure_3_4.r), [Figure_5_6.r](Figure_5_6.r)).
+8. **MPA coverage**: Quantify overlap of hotspot classes with marine protected areas ([Figure_7.r](Figure_7.r)).
 
 ## Inputs and Data ![data](https://img.shields.io/badge/-data-283593?style=flat-square)
 - **Primary inputs**: RData objects and spatial layers in [Inputs_HMSC/](Inputs_HMSC).
@@ -83,6 +84,7 @@ If `zenodor` is absent, it is pulled via `remotes::install_github("FRBCesab/zeno
 - [2_1-Fit presence absence model.r](2_1-Fit%20presence%20absence%20model.r), [2_2-Fit abundance model.r](2_2-Fit%20abundance%20model.r): Model fitting workflows.
 - [3-Models convergence and fit.r](3-Models%20convergence%20and%20fit.r): Diagnostics.
 - [4-Spatial predictions with fitted HMSC.r](4-Spatial%20predictions%20with%20fitted%20HMSC.r): Spatial posterior predictions.
+- [Multivariate Environmental Similarity Surfaces.R](Multivariate%20Environmental%20Similarity%20Surfaces.R): MESS extrapolation diagnostics.
 - [5-Hurdle model predictions.r](5-Hurdle%20model%20predictions.r): Combine components into hurdle outputs.
 - [6-Emerging Hotspot Analysis.r](6-Emerging%20Hotspot%20Analysis.r): Emerging Hotspot Analysis workflow.
 - Figure-generation scripts: all [Figure_*.r](Figure_1.r) scripts in the repository root (including main and supplementary figures; e.g., [Figure_7.r](Figure_7.r), [Figure_S8_S9.r](Figure_S8_S9.r)).
