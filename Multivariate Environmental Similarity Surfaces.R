@@ -1,6 +1,5 @@
 ###############################################################################
-# Title: Multivariate Environmental Similarity Surfaces (MESS) for the
-#        Presence-Absence Model
+# Title: Multivariate Environmental Similarity Surfaces (MESS)
 ###############################################################################
 
 # Literature references:
